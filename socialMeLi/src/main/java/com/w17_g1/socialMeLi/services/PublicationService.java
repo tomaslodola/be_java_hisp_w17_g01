@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class PublicationService {
 
-
-    @Qualifier("IPublicationRepository")
     @Autowired
-    private IPublicationRepository publicationRepository;
+    IPublicationRepository publicationRepository;
 }
