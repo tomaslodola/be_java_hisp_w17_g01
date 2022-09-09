@@ -16,6 +16,9 @@ import java.time.LocalDate;
 public class Publication {
     private Integer id;
     private Integer userId;
+    private LocalDate date;
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate publishDate;
     private Double price;
     private Product product;
