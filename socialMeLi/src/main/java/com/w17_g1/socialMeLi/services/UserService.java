@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService {
+public class
+UserService {
 
-    @Qualifier("IUserRepository")
     @Autowired
     private IUserRepository userRepository;
 }
