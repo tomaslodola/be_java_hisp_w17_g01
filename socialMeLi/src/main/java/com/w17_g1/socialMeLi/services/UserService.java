@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
-    @Qualifier("IUserRepository")
     @Autowired
     private IUserRepository userRepository;
 }
