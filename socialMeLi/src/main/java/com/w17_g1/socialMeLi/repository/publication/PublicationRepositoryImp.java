@@ -13,27 +13,5 @@ import java.util.List;
 
 @Repository
 public class PublicationRepositoryImp implements IPublicationRepository{
-    private final List<Publication> publications;
 
-    public PublicationRepositoryImp() {
-        this.publications = loadDataBase();
-    }
-
-    private List<Publication> loadDataBase() {
-        File file = null;
-        try {
-            file = ResourceUtils.getFile("classpath:publications.json");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        ObjectMapper objectMapper = new ObjectMapper();
-        TypeReference<List<Publication>> typeRef = new TypeReference<>() {};
-        List<Publication> publications = null;
-        try {
-            publications = objectMapper.readValue(file, typeRef);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return publications;
-    }
 }
