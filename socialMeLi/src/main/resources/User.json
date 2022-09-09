@@ -1,0 +1,114 @@
+[
+  {
+    "id": 0,
+    "name": "Glenn Brewer",
+    "followersID": [
+      193,
+      200,
+      194
+    ],
+    "followedID": [
+      99,
+      93,
+      95
+    ]
+  },
+  {
+    "id": 1,
+    "name": "Barr Owen",
+    "followersID": [
+      195,
+      195,
+      193
+    ],
+    "followedID": [
+      96,
+      90,
+      95
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Maxine Weiss",
+    "followersID": [
+      200,
+      199,
+      195
+    ],
+    "followedID": [
+      92,
+      93,
+      99
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Brady Donovan",
+    "followersID": [
+      198,
+      193,
+      190
+    ],
+    "followedID": [
+      91,
+      94,
+      90
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Baker Maddox",
+    "followersID": [
+      199,
+      196,
+      199
+    ],
+    "followedID": [
+      95,
+      94,
+      97
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Whitney Mcdowell",
+    "followersID": [
+      196,
+      200,
+      190
+    ],
+    "followedID": [
+      98,
+      98,
+      91
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Taylor Tillman",
+    "followersID": [
+      200,
+      196,
+      195
+    ],
+    "followedID": [
+      100,
+      100,
+      94
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Cynthia Henderson",
+    "followersID": [
+      194,
+      195,
+      191
+    ],
+    "followedID": [
+      99,
+      95,
+      95
+    ]
+  }
+]
