@@ -12,8 +12,10 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 public class Publication {
-    private String id;
+    private Integer id;
     private Integer userId;
     private LocalDate publishDate;
     private Double price;
+    private Product product;
+    private Integer category;
 }
