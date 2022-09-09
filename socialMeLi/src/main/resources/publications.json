@@ -1,0 +1,56 @@
+[
+  {
+    "id": 889,
+    "userId": 0,
+    "publishDate": "10-03-2022",
+    "price": 6364.74
+  },
+  {
+    "id": 539,
+    "userId": 1,
+    "publishDate": "12-08-2022",
+    "price": 3830.88
+  },
+  {
+    "id": 579,
+    "userId": 2,
+    "publishDate": "27-02-2022",
+    "price": 9137.2
+  },
+  {
+    "id": 795,
+    "userId": 3,
+    "publishDate": "17-11-2022",
+    "price": 9093.59
+  },
+  {
+    "id": 801,
+    "userId": 4,
+    "publishDate": "30-06-2022",
+    "price": 7699.6
+  },
+  {
+    "id": 578,
+    "userId": 5,
+    "publishDate": "23-07-2022",
+    "price": 6278.45
+  },
+  {
+    "id": 556,
+    "userId": 6,
+    "publishDate": "22-03-2022",
+    "price": 6046.23
+  },
+  {
+    "id": 940,
+    "userId": 7,
+    "publishDate": "22-01-2022",
+    "price": 7065.25
+  },
+  {
+    "id": 660,
+    "userId": 8,
+    "publishDate": "26-03-2022",
+    "price": 6102.81
+  }
+]

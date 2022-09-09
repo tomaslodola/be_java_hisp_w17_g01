@@ -13,27 +13,5 @@ import java.util.List;
 
 @Repository
 public class UserRepositoryImp implements IUserRepository {
-    private final List<User> users;
 
-    public UserRepositoryImp() {
-        this.users = loadDataBase();
-    }
-
-    private List<User> loadDataBase() {
-        File file = null;
-        try {
-            file = ResourceUtils.getFile("classpath:users.json");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        ObjectMapper objectMapper = new ObjectMapper();
-        TypeReference<List<User>> typeRef = new TypeReference<>() {};
-        List<User> users = null;
-        try {
-            users = objectMapper.readValue(file, typeRef);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return users;
-    }
 }
