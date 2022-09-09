@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.w17_g1</groupId>
-	<artifactId>socialMeLi</artifactId>
+	<artifactId>social_meli</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>socialMeLi</name>
 	<description>Grupo 1 - Sprint 1</description>
