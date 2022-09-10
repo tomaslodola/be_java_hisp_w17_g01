@@ -17,17 +17,24 @@ import java.util.List;
 public class UserRepositoryImp implements IUserRepository {
 
   List<User> userList;
-  public UserRepositoryImp(){
+
+  public UserRepositoryImp() {
     this.userList = loadDataBase();
   }
 
-  private List<User> loadDataBase(){
+  public List<Integer> userFollowing(Integer userId) {
+    User u = userList.stream().filter(p -> p.getId() == userId).findAny().get();
+    return u.getFollowedId();
+  }
+
+  private List<User> loadDataBase() {
     List<User> userList = null;
     File file;
     ObjectMapper objectMapper = new ObjectMapper()
             .configure(SerializationFeature.WRAP_ROOT_VALUE, false) //nueva
             .registerModule(new JavaTimeModule()); // nueva
-    TypeReference<List<User>> typeRef = new TypeReference<>() {};
+    TypeReference<List<User>> typeRef = new TypeReference<>() {
+    };
     try {
       file = ResourceUtils.getFile("classpath:Users.json");
       userList = objectMapper.readValue(file, typeRef);
