@@ -1,11 +1,9 @@
 package com.w17_g1.socialMeLi.services;
 
 
-import com.w17_g1.socialMeLi.dto.output.UserCountFollowersDTO;
+import com.w17_g1.socialMeLi.dto.output.*;
 import com.w17_g1.socialMeLi.model.User;
 import com.w17_g1.socialMeLi.repository.user.IUserRepository;
-import com.w17_g1.socialMeLi.dto.output.UserOutputListDTO;
-import com.w17_g1.socialMeLi.dto.output.UserOutputDTO;
 import com.w17_g1.socialMeLi.exceptions.ElementNotFoundException;
 import com.w17_g1.socialMeLi.model.User;
 import com.w17_g1.socialMeLi.repository.user.UserRepositoryImp;
@@ -22,7 +20,7 @@ public class UserService {
     UserRepositoryImp userRepository;
 
     // Dado el ID de un usuario, devuelve un DTO con una lista de los seguidores de ese usuario
-    public UserOutputListDTO getFollowersList(Integer userId) {
+    public UserFollowersOutputListDTO getFollowersList(Integer userId) {
 
         // Encontramos al usuario según el ID que nos llega (al recibir un ID invalido devolvemos una excepcion)
         User user = userRepository
@@ -31,7 +29,7 @@ public class UserService {
 
         // Devolvemos un DTO con la lista de sus seguidores
         // Observación: Construimos la lista en buildUserOutpustList
-        return UserOutputListDTO.builder()
+        return UserFollowersOutputListDTO.builder()
                 .id(user.getId())
                 .name(user.getName())
                 .followers(buildUserOutputList(user.getFollowersId()))
@@ -40,7 +38,7 @@ public class UserService {
     }
 
     // Dado el ID de un usuario, devuelve un DTO con una lista de usuarios a los que sigue
-    public UserOutputListDTO getFollowedList(Integer userId) {
+    public UserFollowedOutputListDTO getFollowedList(Integer userId) {
 
         // Encontramos al usuario según el ID que nos llega (al recibir un ID invalido devolvemos una excepcion)
         User user = userRepository
@@ -49,10 +47,10 @@ public class UserService {
 
         // Devolvemos un DTO con la lista de usuarios a los que sigue
         // Observación: Construimos la lista en buildUserOutpustList
-        return UserOutputListDTO.builder()
+        return UserFollowedOutputListDTO.builder()
                 .id(user.getId())
                 .name(user.getName())
-                .followers(buildUserOutputList(user.getFollowedId()))
+                .followed(buildUserOutputList(user.getFollowedId()))
                 .build();
     }
 
