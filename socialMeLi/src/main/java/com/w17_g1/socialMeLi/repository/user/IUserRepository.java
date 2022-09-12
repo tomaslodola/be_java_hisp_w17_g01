@@ -18,6 +18,4 @@ public interface IUserRepository {
     boolean userExist(Integer id);
 
     public List<User> getAllUsers();
-
-    public User getUserById(Integer id);
 }

@@ -27,15 +27,6 @@ public class UserRepositoryImp implements IUserRepository {
     return users;
   }
 
-  @Override
-  public User getUserById(Integer id) {
-    Optional<User> user = users.stream().filter(u -> u.getId() == id).findFirst();
-    if (!user.isPresent()) {
-      String message = String.format("No se encontro el usuario con el id %s", id);
-      throw new ElementNotFoundException(message);
-    }
-    return user.get();
-  }
 
   public UserRepositoryImp() {
     this.users = loadDataBase();

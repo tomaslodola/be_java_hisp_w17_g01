@@ -30,7 +30,6 @@ public class UserController {
     @PostMapping("/users/{userId}/follow/{userIdToFollow}")
     public ResponseEntity<MessageResponseDTO> followUser(@PathVariable Integer userId,
                                                          @PathVariable Integer userIdToFollow) {
-
         return new ResponseEntity<>(service.followUser(userId, userIdToFollow), HttpStatus.valueOf(201));
     }
 
