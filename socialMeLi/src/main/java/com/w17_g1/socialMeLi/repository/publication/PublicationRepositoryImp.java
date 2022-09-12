@@ -5,8 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.w17_g1.socialMeLi.dto.output.PublicationListDTO;
+import com.w17_g1.socialMeLi.exceptions.DuplicateElementException;
 import com.w17_g1.socialMeLi.model.Publication;
 import com.w17_g1.socialMeLi.model.User;
+import com.w17_g1.socialMeLi.repository.user.UserRepositoryImp;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.ResourceUtils;
 
@@ -21,6 +24,9 @@ import java.util.Optional;
 @Repository
 public class PublicationRepositoryImp implements IPublicationRepository {
   List<Publication> publicationList;
+  @Autowired
+  UserRepositoryImp userRepository;
+
 
   public PublicationRepositoryImp() {
     this.publicationList = loadDataBase();

@@ -1,15 +1,12 @@
 package com.w17_g1.socialMeLi.dto.output;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.w17_g1.socialMeLi.model.Product;
-import com.w17_g1.socialMeLi.model.Publication;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.time.LocalDate;
 
@@ -18,8 +15,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class PublicationDTO {
-  //@ModelAttribute("")
+public class PublicationOutDTO {
   private Integer userId;
   private Integer postId;
   private LocalDate date;

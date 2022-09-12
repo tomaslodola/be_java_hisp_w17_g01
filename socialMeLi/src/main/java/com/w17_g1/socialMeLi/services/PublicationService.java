@@ -1,19 +1,24 @@
 package com.w17_g1.socialMeLi.services;
 
 
-import com.w17_g1.socialMeLi.dto.output.PublicationDTO;
+import com.w17_g1.socialMeLi.dto.input.PublicationDTO;
+import com.w17_g1.socialMeLi.dto.output.PublicationIdDTO;
+import com.w17_g1.socialMeLi.dto.output.PublicationOutDTO;
 import com.w17_g1.socialMeLi.dto.output.PublicationListDTO;
 import com.w17_g1.socialMeLi.exceptions.ElementNotFoundException;
+import com.w17_g1.socialMeLi.model.Product;
+import com.w17_g1.socialMeLi.model.Publication;
 import com.w17_g1.socialMeLi.model.User;
 import com.w17_g1.socialMeLi.repository.publication.IPublicationRepository;
+import com.w17_g1.socialMeLi.repository.user.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,7 +41,7 @@ public class PublicationService {
     User user = userRepository.getUser(userId)
             .orElseThrow(() -> new ElementNotFoundException("No se encontro el ID solicitado"));
     List<Integer> follows = getUsersFollowedId(user.getId());
-    List<PublicationDTO> posts = new ArrayList<>();
+    List<PublicationOutDTO> posts = new ArrayList<>();
     LocalDate today = LocalDate.now();
     LocalDate searchAfterDate = today.minusDays(15);
     if(follows.isEmpty()){
@@ -44,20 +49,18 @@ public class PublicationService {
     }
     for (Integer followedId : follows) {
       posts.addAll(publicationRepository.getPublicationsFromUser(followedId,searchAfterDate).stream()
-              .map(p -> PublicationDTO.builder().postId(p.getId()).userId(p.getUserId()).product(p.getProduct())
+              .map(p -> PublicationOutDTO.builder().postId(p.getId()).userId(p.getUserId()).product(p.getProduct())
                               .price(p.getPrice()).date(p.getPublishDate()).category(p.getCategory()).build()
               )
               .collect(Collectors.toList()));
     }
-    posts.sort(Comparator.comparing(PublicationDTO::getDate).reversed());
+    posts.sort(Comparator.comparing(PublicationOutDTO::getDate).reversed());
 
     if(posts.isEmpty()){
       throw new ElementNotFoundException("No hay nuevas publicaciones");
     }
     return PublicationListDTO.builder().userId(userId).posts(posts).build();
   }
-    @Autowired
-    IPublicationRepository publicationRepository;
 
     // Mapeamos el prodcuto y la publicacion en el DTO que vamos a devolver con el id de la nueva publicacion
     public PublicationIdDTO createPublication(PublicationDTO publicationDTO) {

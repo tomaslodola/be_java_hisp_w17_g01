@@ -17,5 +17,5 @@ import java.util.List;
 public class PublicationListDTO {
   //@JsonProperty("user_id")
   private Integer userId;
-  List<PublicationDTO> posts;
+  List<PublicationOutDTO> posts;
 }

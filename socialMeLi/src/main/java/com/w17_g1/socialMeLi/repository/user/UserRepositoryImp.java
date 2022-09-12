@@ -19,34 +19,31 @@ import java.util.Optional;
 @Data
 @Repository
 public class UserRepositoryImp implements IUserRepository {
-    List<User> users;
+  List<User> users;
 
-    @Override
-    public List<User> getAllUsers() {
-        return users;
+  @Override
+  public List<User> getAllUsers() {
+    return users;
+  }
+
+  @Override
+  public User getUserById(Integer id) {
+    Optional<User> user = users.stream().filter(u -> u.getId() == id).findFirst();
+    if (!user.isPresent()) {
+      String message = String.format("No se encontro el usuario con el id %s", id);
+      throw new ElementNotFoundException(message);
     }
+    return user.get();
+  }
 
-    public UserRepositoryImp() {
-
-        this.users = loadDataBase();
-    }
-
-    public UserRepositoryImp(List<User> users) {
-        this.users = loadDataBase();
-    }
-
-    /*
-     Dado el ID de un usuario, lo buscamos en nuestra base de datos.
-     Devolvemos un Optional con el resultado de la busqueda
-     */
-    public Optional<User> getUser(Integer id){
-        return users.stream()
-                .filter(anUser -> Objects.equals(anUser.getId(), id))
-                .findFirst();
-    }
+  public UserRepositoryImp() {
+    this.users = loadDataBase();
+  }
 
 
-    /**Obtener una lista de Ids de a quien sigue un usuario**/
+  /**
+   * Obtener una lista de Ids de a quien sigue un usuario
+   **/
   public List<Integer> usersFollowedIds(Integer userId) {
     User u = users.stream().filter(p -> p.getId() == userId).findAny().get();
     return u.getFollowedId();
@@ -66,20 +63,22 @@ public class UserRepositoryImp implements IUserRepository {
     } catch (IOException e) {
       e.printStackTrace();
     }
+    return users;
+  }
 
-    /*
-     Dado el ID de un usuario, lo buscamos en nuestra base de datos.
-     Devolvemos un Optional con el resultado de la busqueda
-     */
-    public Optional<User> getUser(Integer id){
-        return users.stream()
-                .filter(anUser -> Objects.equals(anUser.getId(), id))
-                .findFirst();
-    }
+  /*
+   Dado el ID de un usuario, lo buscamos en nuestra base de datos.
+   Devolvemos un Optional con el resultado de la busqueda
+   */
+  public Optional<User> getUser(Integer id) {
+    return users.stream()
+            .filter(anUser -> Objects.equals(anUser.getId(), id))
+            .findFirst();
+  }
 
-    public boolean userExist(Integer id){
-        return users.stream()
-                .anyMatch(anUser -> Objects.equals(anUser.getId(), id));
-    }
+  public boolean userExist(Integer id) {
+    return users.stream()
+            .anyMatch(anUser -> Objects.equals(anUser.getId(), id));
+  }
 
 }
