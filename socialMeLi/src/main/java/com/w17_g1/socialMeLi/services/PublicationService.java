@@ -6,14 +6,13 @@ import com.w17_g1.socialMeLi.dto.output.PublicationListDTO;
 import com.w17_g1.socialMeLi.exceptions.ElementNotFoundException;
 import com.w17_g1.socialMeLi.model.User;
 import com.w17_g1.socialMeLi.repository.publication.IPublicationRepository;
-import com.w17_g1.socialMeLi.repository.user.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,4 +56,14 @@ public class PublicationService {
     }
     return PublicationListDTO.builder().userId(userId).posts(posts).build();
   }
+    @Autowired
+    IPublicationRepository publicationRepository;
+
+    // Mapeamos el prodcuto y la publicacion en el DTO que vamos a devolver con el id de la nueva publicacion
+    public PublicationIdDTO createPublication(PublicationDTO publicationDTO) {
+        Product product = new Product(publicationDTO.getProduct().getProduct_id(),publicationDTO.getProduct().getProduct_name(),publicationDTO.getProduct().getType(),publicationDTO.getProduct().getBrand(),publicationDTO.getProduct().getColor(),publicationDTO.getProduct().getNotes());
+        Publication publication = new Publication(0,publicationDTO.getUser_id(),publicationDTO.getDate(),publicationDTO.getPrice(),product,publicationDTO.getCategory());
+        Optional<Publication> result = publicationRepository.createPublication(publication);
+        return new PublicationIdDTO(result.get().getId());
+    }
 }

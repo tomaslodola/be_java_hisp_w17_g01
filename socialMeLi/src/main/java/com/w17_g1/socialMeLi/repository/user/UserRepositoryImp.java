@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.w17_g1.socialMeLi.exceptions.ElementNotFoundException;
 import com.w17_g1.socialMeLi.model.User;
+import lombok.Data;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.ResourceUtils;
 
@@ -14,11 +16,20 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-
+@Data
 @Repository
-public class UserRepositoryImp implements IUserRepository{
+public class UserRepositoryImp implements IUserRepository {
+    List<User> users;
 
-    private final List<User> users;
+    @Override
+    public List<User> getAllUsers() {
+        return users;
+    }
+
+    public UserRepositoryImp() {
+
+        this.users = loadDataBase();
+    }
 
     public UserRepositoryImp(List<User> users) {
         this.users = loadDataBase();
@@ -55,7 +66,20 @@ public class UserRepositoryImp implements IUserRepository{
     } catch (IOException e) {
       e.printStackTrace();
     }
-    return users;
-  }
+
+    /*
+     Dado el ID de un usuario, lo buscamos en nuestra base de datos.
+     Devolvemos un Optional con el resultado de la busqueda
+     */
+    public Optional<User> getUser(Integer id){
+        return users.stream()
+                .filter(anUser -> Objects.equals(anUser.getId(), id))
+                .findFirst();
+    }
+
+    public boolean userExist(Integer id){
+        return users.stream()
+                .anyMatch(anUser -> Objects.equals(anUser.getId(), id));
+    }
 
 }

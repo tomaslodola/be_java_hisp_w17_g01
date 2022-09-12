@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Repository
 public class PublicationRepositoryImp implements IPublicationRepository {
@@ -26,8 +27,10 @@ public class PublicationRepositoryImp implements IPublicationRepository {
     System.out.println(publicationList);
   }
 
-  /**Obtiene las Publicaciones de un usuario en base a id, y una fecha de tope minimo**/
-  public List<Publication> getPublicationsFromUser(Integer userId,LocalDate searchAfterDate) {
+  /**
+   * Obtiene las Publicaciones de un usuario en base a id, y una fecha de tope minimo
+   **/
+  public List<Publication> getPublicationsFromUser(Integer userId, LocalDate searchAfterDate) {
     var publicationList1 = publicationList.stream().filter(p -> p.getUserId() == userId && p.getPublishDate().isAfter(searchAfterDate)).collect(Collectors.toList());
     return publicationList1;
   }
@@ -50,4 +53,24 @@ public class PublicationRepositoryImp implements IPublicationRepository {
     return publicationList;
   }
 
+
+  @Override
+  public Optional<Publication> createPublication(Publication publication) {
+    // Controlamos que el usuario exista y buscamos en la lista de publicaciones del mismo el mayor numerador
+    Optional<Publication> optionalPublication = Optional.empty();
+    User user = userRepository.getUserById(publication.getUserId());
+    List<Publication> userPublications = publicationList.stream().filter(p -> p.getUserId() == user.getId()).toList();
+    Integer autoNumber = userPublications.stream().map(p -> p.getId()).max(Integer::compare).get() + 1;
+    publication.setId(autoNumber);
+    // Si existe el usuario y no se ingresa un producto duplicado
+    if (user == null || userPublications.stream().anyMatch(p -> p.getProduct().getId() == publication.getProduct().getId())) {
+      throw new DuplicateElementException(String.format("Publicacion duplicada para el producto con id:%s", publication.getProduct().getId()));
+    }
+    optionalPublication = Optional.of(publication);
+    publicationList.add(publication);
+    return optionalPublication;
+
+  }
 }
+
+
