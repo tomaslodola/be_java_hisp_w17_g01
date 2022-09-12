@@ -7,15 +7,18 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="socialMeLi" />
         <module name="social_meli" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="social_meli" target="17" />
+      <module name="socialMeLi" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="socialMeLi" options="-parameters" />
       <module name="social_meli" options="-parameters" />
     </option>
   </component>

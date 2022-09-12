@@ -2,113 +2,99 @@
   {
     "id": 0,
     "name": "Glenn Brewer",
-    "followersID": [
-      193,
-      200,
-      194
+    "followersId": [
+      1,
+      3
     ],
-    "followedID": [
-      99,
-      93,
-      95
+    "followedId": [
+      5,
+      6
     ]
   },
   {
     "id": 1,
     "name": "Barr Owen",
-    "followersID": [
-      195,
-      195,
-      193
+    "followersId": [
+      6
     ],
-    "followedID": [
-      96,
-      90,
-      95
+    "followedId": [
+      3,
+      2,
+      5
     ]
   },
   {
     "id": 2,
     "name": "Maxine Weiss",
-    "followersID": [
-      200,
-      199,
-      195
+    "followersId": [
+      0
     ],
-    "followedID": [
-      92,
-      93,
-      99
+    "followedId": [
+      1,
+      4,
+      3
     ]
   },
   {
     "id": 3,
     "name": "Brady Donovan",
-    "followersID": [
-      198,
-      193,
-      190
+    "followersId": [
+      2,
+      4
     ],
-    "followedID": [
-      91,
-      94,
-      90
+    "followedId": [
+      5
     ]
   },
   {
     "id": 4,
     "name": "Baker Maddox",
-    "followersID": [
-      199,
-      196,
-      199
+    "followersId": [
+      0,
+      7,
+      2
     ],
-    "followedID": [
-      95,
-      94,
-      97
+    "followedId": [
+      2,
+      3
     ]
   },
   {
     "id": 5,
     "name": "Whitney Mcdowell",
-    "followersID": [
-      196,
-      200,
-      190
+    "followersId": [
+      6,
+      7
     ],
-    "followedID": [
-      98,
-      98,
-      91
+    "followedId": [
+      1,
+      2,
+      4,
+      7,
+      6
     ]
   },
   {
     "id": 6,
     "name": "Taylor Tillman",
-    "followersID": [
-      200,
-      196,
-      195
+    "followersId": [
+      1,
+      2,
+      3
     ],
-    "followedID": [
-      100,
-      100,
-      94
+    "followedId": [
+      3
     ]
   },
   {
     "id": 7,
     "name": "Cynthia Henderson",
-    "followersID": [
-      194,
-      195,
-      191
+    "followersId": [
+      5
     ],
-    "followedID": [
-      99,
-      95,
-      95
+    "followedId": [
+      5,
+      2
     ]
   }
 ]
