@@ -1,20 +1,26 @@
 package com.w17_g1.socialMeLi.services;
 
+<<<<<<< HEAD
 import com.w17_g1.socialMeLi.dto.output.MessageResponseDTO;
+=======
+
+import com.w17_g1.socialMeLi.dto.output.UserCountFollowersDTO;
+import com.w17_g1.socialMeLi.model.User;
+>>>>>>> 80917f486ea036aa2817da05dc49627c5687d569
 import com.w17_g1.socialMeLi.repository.user.IUserRepository;
 import com.w17_g1.socialMeLi.dto.output.UserOutputListDTO;
 import com.w17_g1.socialMeLi.dto.output.UserOutputDTO;
 import com.w17_g1.socialMeLi.exceptions.ElementNotFoundException;
 import com.w17_g1.socialMeLi.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class
-UserService {
+public class UserService {
 
     @Autowired
     IUserRepository userRepository;
@@ -89,6 +95,7 @@ UserService {
                 .toList();
     }
 
+<<<<<<< HEAD
     public MessageResponseDTO unfollowUser(Integer userId, Integer userIdToUnfollow) {
         Optional<User> user = userRepository.getUser(userId);
         if(!user.get().getFollowersId().contains(userIdToUnfollow)){
@@ -105,5 +112,10 @@ UserService {
         user.get().getFollowersId().remove(userToFollow.get().getId());
 
         return new MessageResponseDTO("Se ha dejado de seguir al usuario "+ userIdToUnfollow + " con exito.");
+=======
+    public UserCountFollowersDTO countNumberOfFollowers(Integer id) {
+        User user = userRepository.getUserById(id);
+        return new UserCountFollowersDTO(user.getFollowersId().size());
+>>>>>>> 80917f486ea036aa2817da05dc49627c5687d569
     }
 }
