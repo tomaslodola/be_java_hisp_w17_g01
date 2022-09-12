@@ -12,7 +12,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(404).body(new ExceptionDTO(e.getMessage()));
     }
 
-
     @ExceptionHandler(DuplicateElementException.class)
     public ResponseEntity<?> duplicateElementException(DuplicateElementException e){
         return ResponseEntity.status(409).body(new ExceptionDTO(e.getMessage()));

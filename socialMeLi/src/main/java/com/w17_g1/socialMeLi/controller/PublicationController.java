@@ -17,15 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class PublicationController {
 
   @Autowired
-  PublicationService publicationSrv;
+  PublicationService publicationService;
   @PostMapping("/products/post")
   public ResponseEntity<?> createPublication(@RequestBody PublicationDTO publicationDTO) {
-      PublicationIdDTO result = publicationSrv.createPublication(publicationDTO);
+      PublicationIdDTO result = publicationService.createPublication(publicationDTO);
       return ResponseEntity.ok(result);
   }
 
   @GetMapping("/products/followed/{userId}/list")
   public ResponseEntity<?> getPublicationsFromUser(@PathVariable Integer userId, @RequestParam(value = "order",required = false, defaultValue = "date_asc") String order) {
-    return new ResponseEntity<>(publicationSrv.getLatestPublicationsFromUser(userId,order), HttpStatus.OK);
+    return new ResponseEntity<>(publicationService.getLatestPublicationsFromUser(userId,order), HttpStatus.OK);
   }
 }

@@ -10,16 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import com.w17_g1.socialMeLi.dto.output.UserCountFollowersDTO;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.web.bind.annotation.*;
-import com.w17_g1.socialMeLi.dto.output.UserCountFollowersDTO;
-import com.w17_g1.socialMeLi.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 public class UserController {
@@ -36,37 +29,31 @@ public class UserController {
     // Requerimiento US 0002: Obtener numero de seguidores de un usuario
     @GetMapping("/users/{userId}/followers/count")
     public ResponseEntity<?> numberOfFollowers(@PathVariable Integer userId) {
-        UserCountFollowersDTO result = service.countNumberOfFollowers(userId);
-        return ResponseEntity.ok(result);
+        return new ResponseEntity<>(service.countNumberOfFollowers(userId), HttpStatus.OK);
     }
 
-    // Requerimiento US-0003: Obtener un listado de todos los usuarios que siguen un determinado vendedor
+    // Requerimiento US-0003 y US-0008: Obtener un listado de todos los usuarios que siguen un determinado vendedor
     @GetMapping("users/{userId}/followers/list")
-    public ResponseEntity<?> getFollowersList(@PathVariable Integer userId,  @RequestParam(value = "order", defaultValue = "name_asc") String order) {
-        if(order.equals("name_asc")){
+    public ResponseEntity<?> getFollowersList(@PathVariable Integer userId, @RequestParam(value = "order", defaultValue = "name_asc") String order) {
+        if (order.equals("name_asc")) {
             return new ResponseEntity<>(service.sortFollowersList(userId, order), HttpStatus.OK);
-
         }
-        if(order.equals("name_desc")){
+        if (order.equals("name_desc")) {
             return new ResponseEntity<>(service.sortFollowersList(userId, order), HttpStatus.OK);
-
         }
-        else throw  new ElementNotFoundException("Parametro no correspondiente");
+        throw new ElementNotFoundException("Parametro no correspondiente");
     }
 
-    // Requerimiento US-0004: Obtener un listado de todos los vendedores a los cuales sigue un determinado usuario
+    // Requerimiento US-0004 y US-008: Obtener un listado de todos los vendedores a los cuales sigue un determinado usuario
     @GetMapping("users/{userId}/followed/list")
     public ResponseEntity<?> getFollowedList(@PathVariable Integer userId, @RequestParam(value = "order", defaultValue = "name_asc") String order) {
-        if(order.equals("name_asc")){
+        if (order.equals("name_asc")) {
             return new ResponseEntity<>(service.sortFollowedList(userId, order), HttpStatus.OK);
-
         }
-        if(order.equals("name_desc")){
+        if (order.equals("name_desc")) {
             return new ResponseEntity<>(service.sortFollowedList(userId, order), HttpStatus.OK);
-
         }
-        //return new ResponseEntity<>(service.getFollowedList(userId), HttpStatus.OK);
-        else throw  new ElementNotFoundException("Parametro no correspondiente");
+        throw new ElementNotFoundException("Parametro no correspondiente");
     }
 
 
@@ -76,8 +63,6 @@ public class UserController {
                                           @PathVariable Integer userIdToUnfollow) {
         return new ResponseEntity<>(service.unfollowUser(userId, userIdToUnfollow), HttpStatus.OK);
     }
-
-
 
 }
 

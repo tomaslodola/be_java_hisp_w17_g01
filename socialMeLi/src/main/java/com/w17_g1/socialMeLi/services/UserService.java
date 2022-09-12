@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 
 @Service
@@ -44,6 +43,33 @@ public class UserService {
         userToFollow.getFollowersId().add(userId);
 
         return new MessageResponseDTO("Se ha seguido al usuario "+ userIdToFollow + " con exito.");
+    }
+
+    public MessageResponseDTO unfollowUser(Integer userId, Integer userIdToUnfollow) {
+
+        User user = userRepository
+                .getUser(userId)
+                .orElseThrow(() -> new ElementNotFoundException("No se encuentra el usuario con el id " + userId + " que quiere dejar de seguir al usuario " + userIdToUnfollow));
+
+        User userToUnfollow = userRepository
+                .getUser(userIdToUnfollow)
+                .orElseThrow(() -> new ElementNotFoundException("No se encuentra el usuario con el id " + userIdToUnfollow + " que quiere dejar de seguir al usuario " + userId));
+
+        if (!user.getFollowedId().contains(userIdToUnfollow))
+            return new MessageResponseDTO("El usuario de id " + userId + " no esta siguiendo al usuario de id " + userIdToUnfollow);
+
+        userToUnfollow.getFollowersId().remove(userId);
+        user.getFollowedId().remove(userIdToUnfollow);
+
+        return new MessageResponseDTO("Se ha dejado de seguir al usuario " + userIdToUnfollow + " con exito.");
+    }
+
+    public UserCountFollowersDTO countNumberOfFollowers(Integer id) {
+        User user = userRepository
+                .getUser(id)
+                .orElseThrow(() -> new ElementNotFoundException("No se encontro el ID solicitado"));
+
+        return new UserCountFollowersDTO(user.getFollowersId().size());
     }
 
     // Dado el ID de un usuario, devuelve un DTO con una lista de los seguidores de ese usuario
@@ -96,33 +122,6 @@ public class UserService {
                         .name(anUser.getName())
                         .build())
                 .toList();
-    }
-
-    public MessageResponseDTO unfollowUser(Integer userId, Integer userIdToUnfollow) {
-
-        User user = userRepository
-                .getUser(userId)
-                .orElseThrow(() -> new ElementNotFoundException("No se encuentra el usuario con el id " + userId + " que quiere dejar de seguir al usuario " + userIdToUnfollow));
-
-        User userToUnfollow = userRepository
-                .getUser(userIdToUnfollow)
-                .orElseThrow(() -> new ElementNotFoundException("No se encuentra el usuario con el id " + userIdToUnfollow + " que quiere dejar de seguir al usuario " + userId));
-
-        if (!user.getFollowedId().contains(userIdToUnfollow))
-            return new MessageResponseDTO("El usuario de id " + userId + " no esta siguiendo al usuario de id " + userIdToUnfollow);
-
-        userToUnfollow.getFollowersId().remove(userId);
-        user.getFollowedId().remove(userIdToUnfollow);
-
-        return new MessageResponseDTO("Se ha dejado de seguir al usuario " + userIdToUnfollow + " con exito.");
-    }
-
-    public UserCountFollowersDTO countNumberOfFollowers(Integer id) {
-        User user = userRepository
-                .getUser(id)
-                .orElseThrow(() -> new ElementNotFoundException("No se encontro el ID solicitado"));
-
-        return new UserCountFollowersDTO(user.getFollowersId().size());
     }
 
     public UserFollowersOutputListDTO sortFollowersList (Integer id,String option){
