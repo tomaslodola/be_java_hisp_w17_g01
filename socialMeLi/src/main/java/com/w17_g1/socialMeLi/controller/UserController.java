@@ -4,15 +4,13 @@ import com.w17_g1.socialMeLi.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 import com.w17_g1.socialMeLi.dto.output.UserCountFollowersDTO;
 import com.w17_g1.socialMeLi.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UserController {
@@ -37,4 +35,15 @@ public class UserController {
     public ResponseEntity<?> getFollowedList(@PathVariable Integer userId){
         return new ResponseEntity<>(service.getFollowedList(userId), HttpStatus.OK);
     }
+
+    // Requerimiento US-0008:Obtener lista de followers y followed de forma ordenada
+    @GetMapping("sers/{userId}/followers/list?order")
+    public  ResponseEntity<?> getFollowersSort(@PathVariable Integer id, @RequestParam String order){
+        return  new ResponseEntity<>(service.sortFollowersList(id,order), HttpStatus.OK);
+    }
+    @GetMapping("sers/{userId}/followed/list?order")
+    public  ResponseEntity<?> getFollowedSort(@PathVariable Integer id, @RequestParam String order){
+        return  new ResponseEntity<>(service.sortFollowedList(id,order), HttpStatus.OK);
+    }
+
 }
