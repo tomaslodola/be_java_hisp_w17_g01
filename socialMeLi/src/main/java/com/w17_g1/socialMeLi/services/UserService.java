@@ -4,7 +4,7 @@ import com.w17_g1.socialMeLi.dto.output.MessageResponseDTO;
 
 import com.w17_g1.socialMeLi.dto.output.*;
 import com.w17_g1.socialMeLi.exceptions.UserAlreadyFollowedException;
-import com.w17_g1.socialMeLi.exceptions.UserCantFollowItSelfException;
+import com.w17_g1.socialMeLi.exceptions.UserCantFollowItselfException;
 import com.w17_g1.socialMeLi.exceptions.UserIsNotFollowedException;
 import com.w17_g1.socialMeLi.model.User;
 import com.w17_g1.socialMeLi.exceptions.ElementNotFoundException;
@@ -25,7 +25,7 @@ public class UserService {
     public MessageResponseDTO followUser(Integer userId, Integer userIdToFollow) {
 
         if(Objects.equals(userId, userIdToFollow))
-            throw new UserCantFollowItSelfException("El usuario no puede seguirse a si mismo");
+            throw new UserCantFollowItselfException("El usuario no puede seguirse a si mismo");
 
         // Obtenemos el primer usuario de la base de datos
         User user = userRepository
@@ -102,7 +102,7 @@ public class UserService {
     public MessageResponseDTO unfollowUser(Integer userId, Integer userIdToUnfollow) {
 
         if(Objects.equals(userId, userIdToUnfollow))
-            throw new UserCantFollowItSelfException("El usuario no puede seguirse a si mismo");
+            throw new UserCantFollowItselfException("El usuario no puede seguirse a si mismo");
 
         User user = userRepository
                 .getUser(userId)

@@ -17,8 +17,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(409).body(new ExceptionDTO(e.getMessage()));
     }
 
-    @ExceptionHandler(UserCantFollowItSelfException.class)
-    public ResponseEntity<?> userCantFollowItSelf(UserCantFollowItSelfException e){
+    @ExceptionHandler(UserCantFollowItselfException.class)
+    public ResponseEntity<?> userCantFollowItSelf(UserCantFollowItselfException e){
         return ResponseEntity.status(409).body(new ExceptionDTO(e.getMessage()));
     }
 
@@ -32,8 +32,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(409).body(new ExceptionDTO(e.getMessage()));
     }
 
-    @ExceptionHandler(UserCantUnfollowItSelfException.class)
-    public ResponseEntity<?> userCantUnfollowItSelfException(UserCantUnfollowItSelfException e){
+    @ExceptionHandler(UserCantUnfollowItselfException.class)
+    public ResponseEntity<?> userCantUnfollowItSelfException(UserCantUnfollowItselfException e){
         return ResponseEntity.status(409).body(new ExceptionDTO(e.getMessage()));
     }
 }
