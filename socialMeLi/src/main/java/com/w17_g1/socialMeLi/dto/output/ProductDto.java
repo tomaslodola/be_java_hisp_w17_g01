@@ -5,16 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class UserFollowersOutputListDTO {
+@NoArgsConstructor
+@Builder
+public class ProductDto {
     private Integer id;
     private String name;
-    private List<UserOutputDTO> followers;
-
-
+    private String type;
+    private String brand;
+    private String color;
+    private String notes;
 }

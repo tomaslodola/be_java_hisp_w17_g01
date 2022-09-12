@@ -7,28 +7,33 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-
-    /*
     @ExceptionHandler(ElementNotFoundException.class)
-    public ResponseEntity<?> idNotFoundException(ElementNotFoundException e){
-        return ResponseEntity.status(404).body(new ExceptionDTO(e.getMessage()));
-    }
-
-    @ExceptionHandler(ElementNotFoundException.class)
-    /*
-    *@ExceptionHandler(ElementNotFoundException.class)
-    *public ResponseEntity<?> idNotFoundException(ElementNotFoundException e){
-    *    return ResponseEntity.status(404).body(new ExceptionDTO(e.getMessage()));
-    *}
-    */
-    @ExceptionHandler
     public ResponseEntity<?> elementNotFound(ElementNotFoundException e){
         return ResponseEntity.status(404).body(new ExceptionDTO(e.getMessage()));
     }
 
-
     @ExceptionHandler(DuplicateElementException.class)
     public ResponseEntity<?> duplicateElementException(DuplicateElementException e){
+        return ResponseEntity.status(409).body(new ExceptionDTO(e.getMessage()));
+    }
+
+    @ExceptionHandler(UserCantFollowItselfException.class)
+    public ResponseEntity<?> userCantFollowItSelf(UserCantFollowItselfException e){
+        return ResponseEntity.status(409).body(new ExceptionDTO(e.getMessage()));
+    }
+
+    @ExceptionHandler(UserAlreadyFollowedException.class)
+    public ResponseEntity<?> userAlreadyFollowed(UserAlreadyFollowedException e){
+        return ResponseEntity.status(409).body(new ExceptionDTO(e.getMessage()));
+    }
+
+    @ExceptionHandler(UserIsNotFollowedException.class)
+    public ResponseEntity<?> userIsNotFollowed(UserIsNotFollowedException e){
+        return ResponseEntity.status(409).body(new ExceptionDTO(e.getMessage()));
+    }
+
+    @ExceptionHandler(UserCantUnfollowItselfException.class)
+    public ResponseEntity<?> userCantUnfollowItSelfException(UserCantUnfollowItselfException e){
         return ResponseEntity.status(409).body(new ExceptionDTO(e.getMessage()));
     }
 }
