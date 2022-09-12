@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(ElementNotFoundException.class)
-    public ResponseEntity<?> idNotFoundException(ElementNotFoundException e){
-        return ResponseEntity.status(404).body(new ExceptionDTO(e.getMessage()));
-    }
+    /*
+    *@ExceptionHandler(ElementNotFoundException.class)
+    *public ResponseEntity<?> idNotFoundException(ElementNotFoundException e){
+    *    return ResponseEntity.status(404).body(new ExceptionDTO(e.getMessage()));
+    *}
+    */
     @ExceptionHandler
     public ResponseEntity<?> elementNotFound(ElementNotFoundException e){
         return ResponseEntity.status(404).body(new ExceptionDTO(e.getMessage()));

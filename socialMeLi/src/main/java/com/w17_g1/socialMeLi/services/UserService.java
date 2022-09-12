@@ -1,19 +1,14 @@
 package com.w17_g1.socialMeLi.services;
 
-<<<<<<< HEAD
 import com.w17_g1.socialMeLi.dto.output.MessageResponseDTO;
-=======
 
 import com.w17_g1.socialMeLi.dto.output.UserCountFollowersDTO;
 import com.w17_g1.socialMeLi.model.User;
->>>>>>> 80917f486ea036aa2817da05dc49627c5687d569
 import com.w17_g1.socialMeLi.repository.user.IUserRepository;
 import com.w17_g1.socialMeLi.dto.output.UserOutputListDTO;
 import com.w17_g1.socialMeLi.dto.output.UserOutputDTO;
 import com.w17_g1.socialMeLi.exceptions.ElementNotFoundException;
-import com.w17_g1.socialMeLi.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -95,27 +90,26 @@ public class UserService {
                 .toList();
     }
 
-<<<<<<< HEAD
     public MessageResponseDTO unfollowUser(Integer userId, Integer userIdToUnfollow) {
         Optional<User> user = userRepository.getUser(userId);
-        if(!user.get().getFollowersId().contains(userIdToUnfollow)){
+        if (!user.get().getFollowersId().contains(userIdToUnfollow)) {
             return new MessageResponseDTO("El usuario de id " + userId + " no esta siguiendo al usuario de id " + userIdToUnfollow);
         }
-        if(!userRepository.userExist(userId)){
-            throw new ElementNotFoundException("No se encuentra el usuario con el id "+userId+" que quiere seguir al usuario " + userIdToUnfollow);
+        if (!userRepository.userExist(userId)) {
+            throw new ElementNotFoundException("No se encuentra el usuario con el id " + userId + " que quiere seguir al usuario " + userIdToUnfollow);
         }
         Optional<User> userToFollow = userRepository.getUser(userIdToUnfollow);
-        if(!userRepository.userExist(userIdToUnfollow)){
-            throw new ElementNotFoundException("No se encuentra al usuario con el id "+ userToFollow + " al que quiere seguir el usuario de id " + userId);
+        if (!userRepository.userExist(userIdToUnfollow)) {
+            throw new ElementNotFoundException("No se encuentra al usuario con el id " + userToFollow + " al que quiere seguir el usuario de id " + userId);
         }
 
         user.get().getFollowersId().remove(userToFollow.get().getId());
 
-        return new MessageResponseDTO("Se ha dejado de seguir al usuario "+ userIdToUnfollow + " con exito.");
-=======
+        return new MessageResponseDTO("Se ha dejado de seguir al usuario " + userIdToUnfollow + " con exito.");
+    }
+
     public UserCountFollowersDTO countNumberOfFollowers(Integer id) {
         User user = userRepository.getUserById(id);
         return new UserCountFollowersDTO(user.getFollowersId().size());
->>>>>>> 80917f486ea036aa2817da05dc49627c5687d569
     }
 }
