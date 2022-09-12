@@ -1,5 +1,6 @@
 package com.w17_g1.socialMeLi.controller;
 
+import com.w17_g1.socialMeLi.exceptions.ElementNotFoundException;
 import com.w17_g1.socialMeLi.services.PublicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,9 +15,7 @@ public class PublicationController {
   PublicationService publicationService;
 
   @GetMapping("/products/followed/{userId}/list")
-  public ResponseEntity<?> getPublicationsFromUser(@PathVariable Integer userId){
-
-    return new ResponseEntity<>(publicationService.getLatestPublicationsFromUser(userId),HttpStatus.OK);
+  public ResponseEntity<?> getPublicationsFromUser(@PathVariable Integer userId) {
+    return new ResponseEntity<>(publicationService.getLatestPublicationsFromUser(userId), HttpStatus.OK);
   }
-
 }

@@ -24,22 +24,6 @@ public class UserRepositoryImp implements IUserRepository{
         this.users = loadDataBase();
     }
 
-    private List<User> loadDataBase(){
-        List<User> jsonUsers = null;
-        File file;
-        ObjectMapper objectMapper = new ObjectMapper()
-                .configure(SerializationFeature.WRAP_ROOT_VALUE, false)
-                .registerModule(new JavaTimeModule());
-        TypeReference<List<User>> typeRef = new TypeReference<>() {};
-        try {
-            file = ResourceUtils.getFile("classpath:Users.json");
-            jsonUsers = objectMapper.readValue(file, typeRef);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return jsonUsers;
-    }
-
     /*
      Dado el ID de un usuario, lo buscamos en nuestra base de datos.
      Devolvemos un Optional con el resultado de la busqueda
@@ -50,19 +34,15 @@ public class UserRepositoryImp implements IUserRepository{
                 .findFirst();
     }
 
-  List<User> userList;
 
-  public UserRepositoryImp() {
-    this.userList = loadDataBase();
-  }
-
+    /**Obtener una lista de Ids de a quien sigue un usuario**/
   public List<Integer> usersFollowedIds(Integer userId) {
-    User u = userList.stream().filter(p -> p.getId() == userId).findAny().get();
+    User u = users.stream().filter(p -> p.getId() == userId).findAny().get();
     return u.getFollowedId();
   }
 
   private List<User> loadDataBase() {
-    List<User> userList = null;
+    List<User> users = null;
     File file;
     ObjectMapper objectMapper = new ObjectMapper()
             .configure(SerializationFeature.WRAP_ROOT_VALUE, false)
@@ -71,11 +51,11 @@ public class UserRepositoryImp implements IUserRepository{
     };
     try {
       file = ResourceUtils.getFile("classpath:Users.json");
-      userList = objectMapper.readValue(file, typeRef);
+      users = objectMapper.readValue(file, typeRef);
     } catch (IOException e) {
       e.printStackTrace();
     }
-    return userList;
+    return users;
   }
 
 }

@@ -26,12 +26,11 @@ public class PublicationRepositoryImp implements IPublicationRepository {
     System.out.println(publicationList);
   }
 
+  /**Obtiene las Publicaciones de un usuario en base a id, y una fecha de tope minimo**/
   public List<Publication> getPublicationsFromUser(Integer userId,LocalDate searchAfterDate) {
     var publicationList1 = publicationList.stream().filter(p -> p.getUserId() == userId && p.getPublishDate().isAfter(searchAfterDate)).collect(Collectors.toList());
     return publicationList1;
   }
-
-
 
 
   private List<Publication> loadDataBase() {
