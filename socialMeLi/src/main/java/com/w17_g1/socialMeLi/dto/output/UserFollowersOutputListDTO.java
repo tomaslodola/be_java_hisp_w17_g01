@@ -15,4 +15,6 @@ public class UserFollowersOutputListDTO {
     private Integer id;
     private String name;
     private List<UserOutputDTO> followers;
+
+
 }
