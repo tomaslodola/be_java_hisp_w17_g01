@@ -6,14 +6,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import com.w17_g1.socialMeLi.dto.output.UserCountFollowersDTO;
+import com.w17_g1.socialMeLi.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UserController {
-
     @Autowired
-    UserService service;
+    private UserService service;
 
+    // Requerimiento US 0002: Obtener numero de seguidores de un usuario
+    @GetMapping("/users/{userId}/followers/count")
+    public ResponseEntity<?> numberOfFollowers(@PathVariable Integer userId) {
+        UserCountFollowersDTO result = service.countNumberOfFollowers(userId);
+        return ResponseEntity.ok(result);
+    }
 
     // Requerimiento US-0003: Obtener un listado de todos los usuarios que siguen un determinado vendedor
     @GetMapping("users/{userId}/followers/list")

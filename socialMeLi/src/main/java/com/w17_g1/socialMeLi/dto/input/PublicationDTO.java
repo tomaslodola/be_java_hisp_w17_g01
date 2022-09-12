@@ -1,6 +1,7 @@
-package com.w17_g1.socialMeLi.model;
+package com.w17_g1.socialMeLi.dto.input;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.w17_g1.socialMeLi.model.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,13 +14,12 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Publication {
-    private Integer id;
-    private Integer userId;
+public class PublicationDTO {
+    private Integer user_id;
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    private LocalDate publishDate;
-    private Double price;
-    private Product product;
+    private LocalDate date;
+    private ProductDTO product;
     private Integer category;
+    private Double price;
 }
