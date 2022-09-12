@@ -14,10 +14,16 @@ public class GlobalExceptionHandler {
 
     /*
     @ExceptionHandler(ElementNotFoundException.class)
+    /*
+    *@ExceptionHandler(ElementNotFoundException.class)
+    *public ResponseEntity<?> idNotFoundException(ElementNotFoundException e){
+    *    return ResponseEntity.status(404).body(new ExceptionDTO(e.getMessage()));
+    *}
+    */
+    @ExceptionHandler
     public ResponseEntity<?> elementNotFound(ElementNotFoundException e){
         return ResponseEntity.status(404).body(new ExceptionDTO(e.getMessage()));
     }
-    */
 
 
     @ExceptionHandler(DuplicateElementException.class)
