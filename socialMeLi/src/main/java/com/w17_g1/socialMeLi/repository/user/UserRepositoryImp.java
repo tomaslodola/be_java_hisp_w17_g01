@@ -22,7 +22,7 @@ public class UserRepositoryImp implements IUserRepository {
     this.userList = loadDataBase();
   }
 
-  public List<Integer> userFollowing(Integer userId) {
+  public List<Integer> usersFollowedIds(Integer userId) {
     User u = userList.stream().filter(p -> p.getId() == userId).findAny().get();
     return u.getFollowedId();
   }
@@ -31,8 +31,8 @@ public class UserRepositoryImp implements IUserRepository {
     List<User> userList = null;
     File file;
     ObjectMapper objectMapper = new ObjectMapper()
-            .configure(SerializationFeature.WRAP_ROOT_VALUE, false) //nueva
-            .registerModule(new JavaTimeModule()); // nueva
+            .configure(SerializationFeature.WRAP_ROOT_VALUE, false)
+            .registerModule(new JavaTimeModule());
     TypeReference<List<User>> typeRef = new TypeReference<>() {
     };
     try {

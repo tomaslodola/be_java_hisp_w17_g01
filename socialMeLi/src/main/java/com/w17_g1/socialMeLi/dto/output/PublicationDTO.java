@@ -20,7 +20,7 @@ import java.time.LocalDate;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class PublicationDTO {
   //@ModelAttribute("")
-  private Integer id;
+  private Integer userId;
   private Integer postId;
   private LocalDate date;
   private Product product;

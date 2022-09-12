@@ -16,8 +16,7 @@ public class PublicationController {
   @GetMapping("/products/followed/{userId}/list")
   public ResponseEntity<?> getPublicationsFromUser(@PathVariable Integer userId){
 
-
-    return new ResponseEntity<>(publicationService.getPublicationsFromUser(userId),HttpStatus.OK);
+    return new ResponseEntity<>(publicationService.getLatestPublicationsFromUser(userId),HttpStatus.OK);
   }
 
 }

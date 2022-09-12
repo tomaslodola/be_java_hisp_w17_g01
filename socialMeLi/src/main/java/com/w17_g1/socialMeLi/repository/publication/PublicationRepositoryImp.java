@@ -13,6 +13,7 @@ import org.springframework.util.ResourceUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,17 +26,20 @@ public class PublicationRepositoryImp implements IPublicationRepository {
     System.out.println(publicationList);
   }
 
-  public List<Publication> getPublicationsFromUser(Integer userId) {
-    var publicationList1 = publicationList.stream().filter(p -> p.getUserId() == userId).collect(Collectors.toList());
+  public List<Publication> getPublicationsFromUser(Integer userId,LocalDate searchAfterDate) {
+    var publicationList1 = publicationList.stream().filter(p -> p.getUserId() == userId && p.getPublishDate().isAfter(searchAfterDate)).collect(Collectors.toList());
     return publicationList1;
   }
+
+
+
 
   private List<Publication> loadDataBase() {
     List<Publication> publicationList = null;
     File file;
     ObjectMapper objectMapper = new ObjectMapper()
-            .configure(SerializationFeature.WRAP_ROOT_VALUE, false) //nueva
-            .registerModule(new JavaTimeModule()); // nueva
+            .configure(SerializationFeature.WRAP_ROOT_VALUE, false)
+            .registerModule(new JavaTimeModule());
     TypeReference<List<Publication>> typeRef = new TypeReference<>() {
     };
     try {
