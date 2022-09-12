@@ -19,7 +19,7 @@ Decidimos crear una rama "test" donde iban a realizarse los merge de todas nuest
 <p>En el día dos comenzamos con la implementación de los endpoints.
 Tuvimos problemas a la hora de hacer merge o push. Los resolvimos juntos en una llamada y utilizando tanto la consola, como la interfaz.<br/>
 Luego de que todos tuviéramos nuestras implementaciones a la rama test, nos reunimos para hacer una refactorización de todo nuestro proyecto, así sea dejar más comentarios explicativos en caso de necesitarlo, como eliminar algunos métodos o líneas de código que se repetían.</p>
-<h3> decisiones de diseño</h3>
+<h3> Decisiones de diseño</h3>
 <p>A las decisiones de diseño (por fuera del esqueleto básico que armamos todo el equipo en conjunto) las tomamos por separado a la hora de realizar la implementación de cada endpoint. Sin embargo, también nos mantuvimos en contacto por si necesitábamos tomar alguna decisión en conjunto para apoyarnos.
 Finalmente terminamos de tomar algunas decisiones al momento de la refactorización.</p>
 
