@@ -5,6 +5,7 @@ import com.w17_g1.socialMeLi.dto.output.MessageResponseDTO;
 import com.w17_g1.socialMeLi.dto.output.*;
 import com.w17_g1.socialMeLi.model.User;
 import com.w17_g1.socialMeLi.exceptions.ElementNotFoundException;
+import com.w17_g1.socialMeLi.repository.user.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Comparator;
@@ -112,17 +113,17 @@ public class UserService {
     }
 
     public UserFollowersOutputListDTO sortFollowersList (Integer id,String option){
-        List list =  getFollowersList(id).getFollowers();
+        List<UserOutputDTO> list =  getFollowersList(id).getFollowers();
         User user = userRepository
                 .getUser(id)
                 .orElseThrow(() -> {return new ElementNotFoundException("No se encontro el ID solicitado");});
 
         List<UserOutputDTO>listSorted = null;
        if (option.equals("name_asc")) {
-           listSorted =  list.stream().sorted(Comparator.comparing(UserOutputListDTO::getName)).toList();
+           listSorted =  list.stream().sorted(Comparator.comparing(UserOutputDTO::getName)).toList();
         }
        if(option.equals("name_desc")){
-          listSorted=  list.stream().sorted(Comparator.comparing(UserOutputListDTO::getName).reversed()).toList();
+          listSorted=  list.stream().sorted(Comparator.comparing(UserOutputDTO::getName).reversed()).toList();
 
        }
         return UserFollowersOutputListDTO.builder()
@@ -133,7 +134,7 @@ public class UserService {
 
     }
     public  UserFollowedOutputListDTO sortFollowedList (Integer id, String option){
-        List list = getFollowedList(id).getFollowed();
+        List<UserOutputDTO> list = getFollowedList(id).getFollowed();
         User user = userRepository
                 .getUser(id)
                 .orElseThrow(() -> {return new ElementNotFoundException("No se encontro el ID solicitado");});
@@ -142,10 +143,10 @@ public class UserService {
         listSorted = null;
 
         if (option.equals("name_asc")) {
-            listSorted =  list.stream().sorted(Comparator.comparing(UserOutputListDTO::getName)).toList();
+            listSorted =  list.stream().sorted(Comparator.comparing(UserOutputDTO::getName)).toList();
         }
         if(option.equals("name_desc")){
-            listSorted=  list.stream().sorted(Comparator.comparing(UserOutputListDTO::getName).reversed()).toList();
+            listSorted=  list.stream().sorted(Comparator.comparing(UserOutputDTO::getName).reversed()).toList();
 
         }
         return UserFollowedOutputListDTO.builder()
