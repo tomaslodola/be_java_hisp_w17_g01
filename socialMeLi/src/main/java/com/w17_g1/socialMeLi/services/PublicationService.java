@@ -29,20 +29,20 @@ public class PublicationService {
   IUserRepository userRepository;
 
   /**Lista de seguidos de un user**/
-  public List<Integer> getUsersFollowedId(Integer userId) {
-    return userRepository.usersFollowedIds(userId);
-  }
-
+  public List<Integer> getUsersFollowedId(Integer userId) { return userRepository.usersFollowedIds(userId); }
 
   /**US 0006: listado de las publicaciones realizadas por los vendedores que un usuario sigue en las últimas dos semanas
    * (ordenamiento por fecha, publicaciones más recientes primero) **/
   public PublicationListDTO getLatestPublicationsFromUser(Integer userId,String order) {
 
     List<PublicationOutDTO> posts = new ArrayList<>();
+
     LocalDate today = LocalDate.now();
     LocalDate searchAfterDate = today.minusDays(15);
+
     User user = userRepository.getUser(userId)
             .orElseThrow(() -> new ElementNotFoundException("No se encontro el ID solicitado"));
+
     List<Integer> follows = getUsersFollowedId(user.getId());
 
     if(follows.isEmpty()){
@@ -50,34 +50,54 @@ public class PublicationService {
     }
 
     for (Integer followedId : follows) {
-      posts.addAll(publicationRepository.getPublicationsFromUser(followedId,searchAfterDate).stream()
-              .map(p -> PublicationOutDTO.builder().postId(p.getId()).userId(p.getUserId()).product(p.getProduct())
-                              .price(p.getPrice()).date(p.getPublishDate()).category(p.getCategory()).build()
-              )
-              .collect(Collectors.toList()));
+      posts.addAll(publicationRepository.getPublicationsFromUser(followedId, searchAfterDate).stream()
+              .map(p -> PublicationOutDTO.builder()
+                      .postId(p.getId())
+                      .userId(p.getUserId())
+                      .product(p.getProduct())
+                      .price(p.getPrice())
+                      .date(p.getPublishDate())
+                      .category(p.getCategory())
+                      .build()
+              ).toList());
     }
 
     if(posts.isEmpty()){
       throw new ElementNotFoundException("No hay nuevas publicaciones");
     }
 
-    posts = this.sortPublicationList(posts,order);
+    posts = sortPublicationList(posts,order);
 
     return PublicationListDTO.builder().userId(userId).posts(posts).build();
   }
 
     // Mapeamos el prodcuto y la publicacion en el DTO que vamos a devolver con el id de la nueva publicacion
     public PublicationIdDTO createPublication(PublicationDTO publicationDTO) {
-        Product product = new Product(publicationDTO.getProduct().getProduct_id(),publicationDTO.getProduct().getProduct_name(),publicationDTO.getProduct().getType(),publicationDTO.getProduct().getBrand(),publicationDTO.getProduct().getColor(),publicationDTO.getProduct().getNotes());
-        Publication publication = new Publication(0,publicationDTO.getUser_id(),publicationDTO.getDate(),publicationDTO.getPrice(),product,publicationDTO.getCategory());
-        Optional<Publication> result = publicationRepository.createPublication(publication);
+
+      Product product = Product.builder()
+                .id(publicationDTO.getProduct().getProduct_id())
+                .name(publicationDTO.getProduct().getProduct_name())
+                .type(publicationDTO.getProduct().getType())
+                .brand(publicationDTO.getProduct().getBrand())
+                .color(publicationDTO.getProduct().getColor())
+                .notes(publicationDTO.getProduct().getNotes())
+                .build();
+
+      Publication publication = Publication.builder()
+              .userId(publicationDTO.getUser_id())
+              .publishDate(publicationDTO.getDate())
+              .price(publicationDTO.getPrice())
+              .product(product)
+              .category(publicationDTO.getCategory())
+              .build();
+
+      Optional<Publication> result = publicationRepository.createPublication(publication);
         return new PublicationIdDTO(result.get().getId());
     }
 
-  List<PublicationOutDTO> sortPublicationList(List<PublicationOutDTO> publications,String order){
+  private List<PublicationOutDTO> sortPublicationList(List<PublicationOutDTO> publications,String order){
     if(order.equals("date_asc"))
       return publications.stream().sorted(Comparator.comparing(PublicationOutDTO::getDate).reversed()).collect(Collectors.toList());
-
-      return publications.stream().sorted(Comparator.comparing(PublicationOutDTO::getDate)).collect(Collectors.toList());
+    return publications.stream().sorted(Comparator.comparing(PublicationOutDTO::getDate)).collect(Collectors.toList());
   }
 }

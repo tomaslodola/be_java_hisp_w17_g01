@@ -5,10 +5,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.w17_g1.socialMeLi.exceptions.ElementNotFoundException;
 import com.w17_g1.socialMeLi.model.User;
 import lombok.Data;
-import org.springframework.stereotype.Repository;
 import org.springframework.util.ResourceUtils;
 
 import java.io.File;
@@ -27,11 +25,9 @@ public class UserRepositoryImp implements IUserRepository {
     return users;
   }
 
-
   public UserRepositoryImp() {
     this.users = loadDataBase();
   }
-
 
   /**
    * Obtener una lista de Ids de a quien sigue un usuario
@@ -66,11 +62,6 @@ public class UserRepositoryImp implements IUserRepository {
     return users.stream()
             .filter(anUser -> Objects.equals(anUser.getId(), id))
             .findFirst();
-  }
-
-  public boolean userExist(Integer id) {
-    return users.stream()
-            .anyMatch(anUser -> Objects.equals(anUser.getId(), id));
   }
 
 }
