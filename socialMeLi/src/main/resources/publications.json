@@ -1,56 +1,86 @@
 [
   {
-    "id": 889,
+    "id": 8,
     "userId": 0,
-    "publishDate": "10-03-2022",
-    "price": 6364.74
+    "publishDate": "08-04-2014",
+    "price": 3305.77,
+    "category": 17,
+    "product": {
+      "id": 0,
+      "name": "DoraTheVideogame",
+      "type": "Electronic",
+      "brand": "MechManiacos",
+      "color": "Reg"
+    }
   },
   {
-    "id": 539,
+    "id": 13,
     "userId": 1,
-    "publishDate": "12-08-2022",
-    "price": 3830.88
+    "publishDate": "16-01-2012",
+    "price": 9894.36,
+    "category": 11,
+    "product": {
+      "id": 47,
+      "name": "MaxSteel",
+      "type": "Music",
+      "brand": "MechManiacos",
+      "color": "Yellow"
+    }
   },
   {
-    "id": 579,
+    "id": 7,
     "userId": 2,
-    "publishDate": "27-02-2022",
-    "price": 9137.2
+    "publishDate": "03-06-2015",
+    "price": 2125.25,
+    "category": 11,
+    "product": {
+      "id": 99,
+      "name": "MaxSteel",
+      "type": "Cars",
+      "brand": "MechManiacos",
+      "color": "Green"
+    }
   },
   {
-    "id": 795,
+    "id": 9,
     "userId": 3,
-    "publishDate": "17-11-2022",
-    "price": 9093.59
+    "publishDate": "26-03-2017",
+    "price": 8395.75,
+    "category": 11,
+    "product": {
+      "id": 34,
+      "name": "DoraTheVideogame",
+      "type": "Gamer",
+      "brand": "MechManiacos",
+      "color": "Yellow"
+    }
   },
   {
-    "id": 801,
+    "id": 11,
     "userId": 4,
-    "publishDate": "30-06-2022",
-    "price": 7699.6
+    "publishDate": "04-06-2019",
+    "price": 8571.56,
+    "category": 18,
+    "product": {
+      "id": 49,
+      "name": "MaxSteel",
+      "type": "Electronic",
+      "brand": "Garbarino",
+      "color": "Yellow"
+    }
   },
   {
-    "id": 578,
+    "id": 8,
     "userId": 5,
-    "publishDate": "23-07-2022",
-    "price": 6278.45
-  },
-  {
-    "id": 556,
-    "userId": 6,
-    "publishDate": "22-03-2022",
-    "price": 6046.23
-  },
-  {
-    "id": 940,
-    "userId": 7,
-    "publishDate": "22-01-2022",
-    "price": 7065.25
-  },
-  {
-    "id": 660,
-    "userId": 8,
-    "publishDate": "26-03-2022",
-    "price": 6102.81
+    "publishDate": "12-12-2021",
+    "price": 9883.25,
+    "category": 17,
+    "product": {
+      "id": 89,
+      "name": "Proto1",
+      "type": "Music",
+      "brand": "Garbarino",
+      "color": "Green"
+    }
   }
 ]

@@ -14,8 +14,12 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 public class Publication {
-    private String id;
+    private Integer id;
     private Integer userId;
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate publishDate;
     private Double price;
+    private Product product;
+    private Integer category;
 }
