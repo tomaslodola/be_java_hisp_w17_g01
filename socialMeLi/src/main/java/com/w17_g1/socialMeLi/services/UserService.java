@@ -3,6 +3,9 @@ package com.w17_g1.socialMeLi.services;
 import com.w17_g1.socialMeLi.dto.output.MessageResponseDTO;
 
 import com.w17_g1.socialMeLi.dto.output.*;
+import com.w17_g1.socialMeLi.exceptions.UserAlreadyFollowedException;
+import com.w17_g1.socialMeLi.exceptions.UserCantFollowItSelfException;
+import com.w17_g1.socialMeLi.exceptions.UserIsNotFollowedException;
 import com.w17_g1.socialMeLi.model.User;
 import com.w17_g1.socialMeLi.exceptions.ElementNotFoundException;
 import com.w17_g1.socialMeLi.repository.user.IUserRepository;
@@ -11,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 
 @Service
@@ -23,8 +25,7 @@ public class UserService {
     public MessageResponseDTO followUser(Integer userId, Integer userIdToFollow) {
 
         if(Objects.equals(userId, userIdToFollow))
-            // Hacer una excepcion
-            ;
+            throw new UserCantFollowItSelfException("El usuario no puede seguirse a si mismo");
 
         // Obtenemos el primer usuario de la base de datos
         User user = userRepository
@@ -33,12 +34,12 @@ public class UserService {
 
         // Obtenemos el usuario a seguir
         User userToFollow = userRepository
-                .getUser(userId)
-                .orElseThrow(() -> new ElementNotFoundException("No se encuentra el usuario con el id " + userIdToFollow + " que quiere seguir al usuario " + userId));
+                .getUser(userIdToFollow)
+                .orElseThrow(() -> new ElementNotFoundException("No se encuentra el usuario con el id " + userIdToFollow + " que quiere seguir el usuario " + userId));
 
         // Chequeo de exception
         if(user.getFollowedId().contains(userIdToFollow))
-            return new MessageResponseDTO("El usuario de id " + userId + " ya esta siguiendo al usuario de id " + userIdToFollow);
+            throw new UserAlreadyFollowedException("El usuario de id " + userId + " ya esta siguiendo al usuario de id " + userIdToFollow);
 
         user.getFollowedId().add(userIdToFollow);
         userToFollow.getFollowersId().add(userId);
@@ -100,16 +101,19 @@ public class UserService {
 
     public MessageResponseDTO unfollowUser(Integer userId, Integer userIdToUnfollow) {
 
+        if(Objects.equals(userId, userIdToUnfollow))
+            throw new UserCantFollowItSelfException("El usuario no puede seguirse a si mismo");
+
         User user = userRepository
                 .getUser(userId)
                 .orElseThrow(() -> new ElementNotFoundException("No se encuentra el usuario con el id " + userId + " que quiere dejar de seguir al usuario " + userIdToUnfollow));
 
         User userToUnfollow = userRepository
                 .getUser(userIdToUnfollow)
-                .orElseThrow(() -> new ElementNotFoundException("No se encuentra el usuario con el id " + userIdToUnfollow + " que quiere dejar de seguir al usuario " + userId));
+                .orElseThrow(() -> new ElementNotFoundException("No se encuentra el usuario con el id " + userIdToUnfollow + " que quiere dejar de seguir el usuario " + userId));
 
         if (!user.getFollowedId().contains(userIdToUnfollow))
-            return new MessageResponseDTO("El usuario de id " + userId + " no esta siguiendo al usuario de id " + userIdToUnfollow);
+            throw new UserIsNotFollowedException("El usuario de id " + userId + " no esta siguiendo al usuario de id " + userIdToUnfollow);
 
         userToUnfollow.getFollowersId().remove(userId);
         user.getFollowedId().remove(userIdToUnfollow);

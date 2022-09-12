@@ -59,8 +59,8 @@ public class PublicationRepositoryImp implements IPublicationRepository {
   public Optional<Publication> createPublication(Publication publication) {
     // Controlamos que el usuario exista y buscamos en la lista de publicaciones del mismo el mayor numerador
     Optional<Publication> optionalPublication = Optional.empty();
-    User user = userRepository.getUserById(publication.getUserId());
-    List<Publication> userPublications = publicationList.stream().filter(p -> p.getUserId() == user.getId()).toList();
+    Optional<User> user = userRepository.getUser(publication.getUserId());
+    List<Publication> userPublications = publicationList.stream().filter(p -> p.getUserId() == user.get().getId()).toList();
     Integer autoNumber = userPublications.stream().map(p -> p.getId()).max(Integer::compare).get() + 1;
     publication.setId(autoNumber);
     // Si existe el usuario y no se ingresa un producto duplicado

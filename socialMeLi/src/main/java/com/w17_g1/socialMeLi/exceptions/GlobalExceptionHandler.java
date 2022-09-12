@@ -12,9 +12,28 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(404).body(new ExceptionDTO(e.getMessage()));
     }
 
-
     @ExceptionHandler(DuplicateElementException.class)
     public ResponseEntity<?> duplicateElementException(DuplicateElementException e){
+        return ResponseEntity.status(409).body(new ExceptionDTO(e.getMessage()));
+    }
+
+    @ExceptionHandler(UserCantFollowItSelfException.class)
+    public ResponseEntity<?> userCantFollowItSelf(UserCantFollowItSelfException e){
+        return ResponseEntity.status(409).body(new ExceptionDTO(e.getMessage()));
+    }
+
+    @ExceptionHandler(UserAlreadyFollowedException.class)
+    public ResponseEntity<?> userAlreadyFollowed(UserAlreadyFollowedException e){
+        return ResponseEntity.status(409).body(new ExceptionDTO(e.getMessage()));
+    }
+
+    @ExceptionHandler(UserIsNotFollowedException.class)
+    public ResponseEntity<?> userIsNotFollowed(UserIsNotFollowedException e){
+        return ResponseEntity.status(409).body(new ExceptionDTO(e.getMessage()));
+    }
+
+    @ExceptionHandler(UserCantUnfollowItSelfException.class)
+    public ResponseEntity<?> userCantUnfollowItSelfException(UserCantUnfollowItSelfException e){
         return ResponseEntity.status(409).body(new ExceptionDTO(e.getMessage()));
     }
 }
