@@ -1,5 +1,6 @@
 package com.w17_g1.socialMeLi.controller;
 
+import com.w17_g1.socialMeLi.dto.output.PublicationDTO;
 import com.w17_g1.socialMeLi.services.PublicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class PublicationController {
 
@@ -16,10 +19,8 @@ public class PublicationController {
     PublicationService publicationSrv;
 
     @GetMapping("/products/followed/{userId}/list")
-    public ResponseEntity<?> getProducts(@PathVariable Integer userId, @RequestParam(value = "order",required = false) String order){
-        if(order!=null)
-            return new ResponseEntity<>(publicationSrv)
-
+    public ResponseEntity<List<PublicationDTO>> getProducts(@PathVariable Integer userId, @RequestParam(value = "order",required = false) String order){
+        return new ResponseEntity<>(publicationSrv.getPublicationListSorted(userId,order),HttpStatus.OK);
     }
 
 }
