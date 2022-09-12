@@ -1,7 +1,29 @@
 package com.w17_g1.socialMeLi.controller;
 
+import com.w17_g1.socialMeLi.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UserController {
+
+    @Autowired
+    UserService service;
+
+
+    // Requerimiento US-0003: Obtener un listado de todos los usuarios que siguen un determinado vendedor
+    @GetMapping("users/{userId}/followers/list")
+    public ResponseEntity<?> getFollowersList(@PathVariable Integer userId){
+        return new ResponseEntity<>(service.getFollowersList(userId), HttpStatus.OK);
+    }
+
+    // Requerimiento US-0004: Obtener un listado de todos los vendedores a los cuales sigue un determinado usuario
+    @GetMapping("users/{userId}/followed/list")
+    public ResponseEntity<?> getFollowedList(@PathVariable Integer userId){
+        return new ResponseEntity<>(service.getFollowedList(userId), HttpStatus.OK);
+    }
 }
