@@ -1,6 +1,7 @@
 package com.w17_g1.socialMeLi.services;
 
 
+import com.w17_g1.socialMeLi.dto.input.ProductDTO;
 import com.w17_g1.socialMeLi.dto.input.PublicationDTO;
 import com.w17_g1.socialMeLi.dto.output.PublicationIdDTO;
 import com.w17_g1.socialMeLi.dto.output.PublicationOutDTO;
@@ -74,27 +75,41 @@ public class PublicationService {
     // Mapeamos el prodcuto y la publicacion en el DTO que vamos a devolver con el id de la nueva publicacion
     public PublicationIdDTO createPublication(PublicationDTO publicationDTO) {
 
-      Product product = Product.builder()
-                .id(publicationDTO.getProduct().getProduct_id())
-                .name(publicationDTO.getProduct().getProduct_name())
-                .type(publicationDTO.getProduct().getType())
-                .brand(publicationDTO.getProduct().getBrand())
-                .color(publicationDTO.getProduct().getColor())
-                .notes(publicationDTO.getProduct().getNotes())
-                .build();
-
-      Publication publication = Publication.builder()
-              .userId(publicationDTO.getUser_id())
-              .publishDate(publicationDTO.getDate())
-              .price(publicationDTO.getPrice())
-              .product(product)
-              .category(publicationDTO.getCategory())
-              .build();
+      Publication publication = buildPublication(publicationDTO);
 
       Optional<Publication> result = publicationRepository.createPublication(publication);
         return new PublicationIdDTO(result.get().getId());
     }
 
+  public Boolean createPromoPublication(PublicationDTO publicationDTO){
+
+    Publication publication = buildPublication(publicationDTO);
+
+    return publicationRepository.createPromoPublication(publication);
+  }
+
+  public Product buildProduct(ProductDTO productDTO){
+     return  Product.builder()
+            .id(productDTO.getProduct_id())
+            .name(productDTO.getProduct_name())
+            .type(productDTO.getType())
+            .brand(productDTO.getBrand())
+            .color(productDTO.getColor())
+            .notes(productDTO.getNotes())
+            .build();
+  }
+
+  public Publication buildPublication(PublicationDTO publicationDTO){
+      return Publication.builder()
+              .userId(publicationDTO.getUser_id())
+              .publishDate(publicationDTO.getDate())
+              .price(publicationDTO.getPrice())
+              .product(buildProduct(publicationDTO.getProduct()))
+              .category(publicationDTO.getCategory())
+              .has_promo(publicationDTO.getHas_promo())
+              .discount(publicationDTO.getDiscount())
+              .build();
+  }
   private List<PublicationOutDTO> sortPublicationList(List<PublicationOutDTO> publications,String order){
     if(order.equals("date_asc"))
       return publications.stream().sorted(Comparator.comparing(PublicationOutDTO::getDate).reversed()).collect(Collectors.toList());
