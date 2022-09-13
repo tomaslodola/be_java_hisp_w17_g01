@@ -10,6 +10,7 @@ import com.w17_g1.socialMeLi.exceptions.ElementNotFoundException;
 import com.w17_g1.socialMeLi.model.Publication;
 import com.w17_g1.socialMeLi.model.User;
 import com.w17_g1.socialMeLi.repository.user.UserRepositoryImp;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.ResourceUtils;
@@ -27,6 +28,8 @@ public class PublicationRepositoryImp implements IPublicationRepository {
   List<Publication> publicationList;
   @Autowired
   UserRepositoryImp userRepository;
+
+  private ModelMapper mapper = new ModelMapper();
 
   public PublicationRepositoryImp() {
     this.publicationList = loadDataBase();
@@ -93,18 +96,24 @@ public class PublicationRepositoryImp implements IPublicationRepository {
     if (userPublications.stream().anyMatch(p -> Objects.equals(p.getProduct().getId(), publication.getProduct().getId()))) {
       throw new DuplicateElementException(String.format("Publicacion duplicada para el producto con id:%s", publication.getProduct().getId()));
     }
-
     return publicationList.add(publication);
   }
 
   @Override
   public Integer getQuantityPublicationInPromoByUser(Integer userId){
     Long quantityOfPublication = publicationList.stream()
-            .filter(p -> Objects.equals(p.getUserId(), userId) && p.getHas_promo() == true)
-            .count();
-
+            .filter(p -> Objects.equals(p.getUserId(), userId) && p.getHas_promo() == true).count();
     return quantityOfPublication.intValue();
   }
+
+  @Override
+  public List<PublicationDTO> getPublicationInPromoByUser(Integer userId){
+    return publicationList.stream()
+            .filter(p -> Objects.equals(p.getUserId(), userId) && p.getHas_promo() == true)
+            .map(p -> mapper.map(p, PublicationDTO.class))
+            .collect(Collectors.toList());
+  }
+
 }
 
 

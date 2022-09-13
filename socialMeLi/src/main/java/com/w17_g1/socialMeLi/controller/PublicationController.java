@@ -39,4 +39,9 @@ public class PublicationController {
     return new ResponseEntity<>(publicationService.findProductsInPromotionByUser(userId),HttpStatus.OK);
   }
 
+  @GetMapping("/products/promo-post/list")
+  public ResponseEntity<?> getProductsInPromotionByUserId(@RequestParam(value = "user_id") Integer userId) {
+    return new ResponseEntity<>(publicationService.getProductListInPromotionByUser(userId),HttpStatus.OK);
+  }
+
 }

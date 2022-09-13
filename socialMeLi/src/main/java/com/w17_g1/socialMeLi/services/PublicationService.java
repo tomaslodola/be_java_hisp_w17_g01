@@ -3,15 +3,13 @@ package com.w17_g1.socialMeLi.services;
 
 import com.w17_g1.socialMeLi.dto.input.ProductDTO;
 import com.w17_g1.socialMeLi.dto.input.PublicationDTO;
-import com.w17_g1.socialMeLi.dto.output.PublicationIdDTO;
-import com.w17_g1.socialMeLi.dto.output.PublicationOutDTO;
-import com.w17_g1.socialMeLi.dto.output.PublicationListDTO;
-import com.w17_g1.socialMeLi.dto.output.QuantityProductInPromotionDTO;
+import com.w17_g1.socialMeLi.dto.output.*;
 import com.w17_g1.socialMeLi.exceptions.ElementNotFoundException;
 import com.w17_g1.socialMeLi.model.Product;
 import com.w17_g1.socialMeLi.model.Publication;
 import com.w17_g1.socialMeLi.model.User;
 import com.w17_g1.socialMeLi.repository.publication.IPublicationRepository;
+import com.w17_g1.socialMeLi.repository.publication.PublicationRepositoryImp;
 import com.w17_g1.socialMeLi.repository.user.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -85,7 +83,6 @@ public class PublicationService {
   public Boolean createPromoPublication(PublicationDTO publicationDTO){
 
     Publication publication = buildPublication(publicationDTO);
-
     return publicationRepository.createPromoPublication(publication);
   }
 
@@ -127,5 +124,12 @@ public class PublicationService {
             .user_name(user.getName())
             .promo_products_count(publicationRepository.getQuantityPublicationInPromoByUser(user.getId()))
             .build();
+  }
+
+  public ProductsInPromotionDTO getProductListInPromotionByUser(Integer userId){
+    User user = userRepository
+            .getUser(userId)
+            .orElseThrow(() -> new ElementNotFoundException("No se encontro el usuario con  id: " + userId));
+      return ProductsInPromotionDTO.builder().user_name(user.getName()).user_id(user.getId()).posts(publicationRepository.getPublicationInPromoByUser(userId)).build();
   }
 }

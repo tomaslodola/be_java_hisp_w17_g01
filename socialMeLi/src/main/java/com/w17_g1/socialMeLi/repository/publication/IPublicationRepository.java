@@ -12,4 +12,5 @@ public interface IPublicationRepository {
   Boolean createPromoPublication(Publication publication);
   Boolean create(Publication publication);
   Integer getQuantityPublicationInPromoByUser(Integer userId);
+  List<PublicationDTO> getPublicationInPromoByUser(Integer userId);
 }
