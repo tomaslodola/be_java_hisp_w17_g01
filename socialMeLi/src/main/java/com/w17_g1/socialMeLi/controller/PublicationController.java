@@ -35,12 +35,12 @@ public class PublicationController {
     PublicationIdDTO publicationIdDTO = publicationService.createPromoPublication(promoPublicationDTO);
     return ResponseEntity.ok(publicationIdDTO);
   }
-  @GetMapping("/products/promo-post/count{userId}")
+  @GetMapping("/products/promo-post/count")
   public ResponseEntity<?> getCountPromoPublicationsFromUser(@RequestParam Integer userId) {
     return new ResponseEntity<>(publicationService.getCountPromoPublicationsFromUser(userId), HttpStatus.OK);
   }
 
-  @GetMapping("/products/promo-post/list{userId}")
+  @GetMapping("/products/promo-post/list")
   public ResponseEntity<?> getPromoPublicationsFromUser(@RequestParam Integer userId) {
     return new ResponseEntity<>(publicationService.getPromoPublicationsFromUser(userId), HttpStatus.OK);
   }
