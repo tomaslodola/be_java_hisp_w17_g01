@@ -28,4 +28,10 @@ public class PublicationController {
   public ResponseEntity<?> getPublicationsFromUser(@PathVariable Integer userId, @RequestParam(value = "order",required = false, defaultValue = "date_asc") String order) {
     return new ResponseEntity<>(publicationService.getLatestPublicationsFromUser(userId,order), HttpStatus.OK);
   }
+
+  @PostMapping("/products/promo-post")
+  public ResponseEntity<?> createPublicationPromo(@RequestBody PublicationDTO promoProductDTO) {
+    return new ResponseEntity<>(null,publicationService.createPromoPublication(promoProductDTO)?HttpStatus.OK:HttpStatus.NOT_FOUND);
+  }
+
 }
