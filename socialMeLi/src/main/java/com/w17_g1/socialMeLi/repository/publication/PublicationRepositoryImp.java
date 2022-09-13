@@ -97,6 +97,14 @@ public class PublicationRepositoryImp implements IPublicationRepository {
     return publicationList.add(publication);
   }
 
+  @Override
+  public Integer getQuantityPublicationInPromoByUser(Integer userId){
+    Long quantityOfPublication = publicationList.stream()
+            .filter(p -> Objects.equals(p.getUserId(), userId) && p.getHas_promo() == true)
+            .count();
+
+    return quantityOfPublication.intValue();
+  }
 }
 
 
