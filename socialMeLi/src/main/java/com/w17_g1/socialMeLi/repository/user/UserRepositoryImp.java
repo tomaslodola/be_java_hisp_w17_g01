@@ -1,5 +1,6 @@
 package com.w17_g1.socialMeLi.repository.user;
 
+import com.w17_g1.socialMeLi.exceptions.ElementNotFoundException;
 import org.springframework.stereotype.Repository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -62,6 +63,11 @@ public class UserRepositoryImp implements IUserRepository {
     return users.stream()
             .filter(anUser -> Objects.equals(anUser.getId(), id))
             .findFirst();
+  }
+
+  public void validateUser(Integer userId){
+    getUser(userId)
+            .orElseThrow(() -> new ElementNotFoundException("No se encontro el usuario con  id: " + userId));
   }
 
 }
