@@ -11,5 +11,5 @@ public interface IPublicationRepository {
   Optional<Publication> createPublication(Publication publication);
   Boolean createPromoPublication(Publication publication);
   Boolean create(Publication publication);
-
+  Integer getQuantityPublicationInPromoByUser(Integer userId);
 }
