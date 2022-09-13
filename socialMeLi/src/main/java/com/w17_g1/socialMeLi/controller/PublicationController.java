@@ -1,5 +1,6 @@
 package com.w17_g1.socialMeLi.controller;
 
+import com.w17_g1.socialMeLi.dto.input.PromoPublicationDTO;
 import com.w17_g1.socialMeLi.services.PublicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,5 +28,20 @@ public class PublicationController {
   @GetMapping("/products/followed/{userId}/list")
   public ResponseEntity<?> getPublicationsFromUser(@PathVariable Integer userId, @RequestParam(value = "order",required = false, defaultValue = "date_asc") String order) {
     return new ResponseEntity<>(publicationService.getLatestPublicationsFromUser(userId,order), HttpStatus.OK);
+  }
+
+  @PostMapping("/products/promo-post")
+  public ResponseEntity<?> createPromoPublication(@RequestBody PromoPublicationDTO promoPublicationDTO) {
+    PublicationIdDTO publicationIdDTO = publicationService.createPromoPublication(promoPublicationDTO);
+    return ResponseEntity.ok(publicationIdDTO);
+  }
+  @GetMapping("/products/promo-post/count{userId}")
+  public ResponseEntity<?> getCountPromoPublicationsFromUser(@RequestParam Integer userId) {
+    return new ResponseEntity<>(publicationService.getCountPromoPublicationsFromUser(userId), HttpStatus.OK);
+  }
+
+  @GetMapping("/products/promo-post/list{userId}")
+  public ResponseEntity<?> getPromoPublicationsFromUser(@RequestParam Integer userId) {
+    return new ResponseEntity<>(publicationService.getPromoPublicationsFromUser(userId), HttpStatus.OK);
   }
 }

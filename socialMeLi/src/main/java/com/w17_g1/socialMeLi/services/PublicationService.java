@@ -1,10 +1,10 @@
 package com.w17_g1.socialMeLi.services;
 
 
+import com.w17_g1.socialMeLi.dto.input.ProductDTO;
+import com.w17_g1.socialMeLi.dto.input.PromoPublicationDTO;
 import com.w17_g1.socialMeLi.dto.input.PublicationDTO;
-import com.w17_g1.socialMeLi.dto.output.PublicationIdDTO;
-import com.w17_g1.socialMeLi.dto.output.PublicationOutDTO;
-import com.w17_g1.socialMeLi.dto.output.PublicationListDTO;
+import com.w17_g1.socialMeLi.dto.output.*;
 import com.w17_g1.socialMeLi.exceptions.ElementNotFoundException;
 import com.w17_g1.socialMeLi.model.Product;
 import com.w17_g1.socialMeLi.model.Publication;
@@ -89,6 +89,8 @@ public class PublicationService {
               .price(publicationDTO.getPrice())
               .product(product)
               .category(publicationDTO.getCategory())
+              .hasPromo(false)
+              .discount(0.0)
               .build();
 
       Optional<Publication> result = publicationRepository.createPublication(publication);
@@ -99,5 +101,55 @@ public class PublicationService {
     if(order.equals("date_asc"))
       return publications.stream().sorted(Comparator.comparing(PublicationOutDTO::getDate).reversed()).collect(Collectors.toList());
     return publications.stream().sorted(Comparator.comparing(PublicationOutDTO::getDate)).collect(Collectors.toList());
+  }
+
+  public PublicationIdDTO createPromoPublication(PromoPublicationDTO publicationDTO) {
+
+    Product product = Product.builder()
+            .id(publicationDTO.getProduct().getProduct_id())
+            .name(publicationDTO.getProduct().getProduct_name())
+            .type(publicationDTO.getProduct().getType())
+            .brand(publicationDTO.getProduct().getBrand())
+            .color(publicationDTO.getProduct().getColor())
+            .notes(publicationDTO.getProduct().getNotes())
+            .build();
+
+    Publication publication = Publication.builder()
+            .userId(publicationDTO.getUser_id())
+            .publishDate(publicationDTO.getDate())
+            .price(publicationDTO.getPrice())
+            .product(product)
+            .category(publicationDTO.getCategory())
+            .hasPromo(publicationDTO.getHas_promo())
+            .discount(publicationDTO.getDiscount())
+            .build();
+
+    Optional<Publication> result = publicationRepository.createPublication(publication);
+    return new PublicationIdDTO(result.get().getId());
+  }
+  public UserPromoPublicationCountDTO getCountPromoPublicationsFromUser(Integer userId) {
+    List<Publication> userPublication = publicationRepository.getPromoPublicationsFromUser(userId);
+    User user = userRepository.getUser(userId).orElseThrow(() -> new ElementNotFoundException("No se encuentra el usuario con el id " + userId));
+    return new UserPromoPublicationCountDTO(userId,user.getName(),userPublication.size());
+  }
+
+  public PromoPublicationOutDTO getPromoPublicationsFromUser(Integer userId) {
+    List<PublicationDTO> posts = new ArrayList<>();
+
+    User user = userRepository.getUser(userId)
+            .orElseThrow(() -> new ElementNotFoundException("No se encontro el ID solicitado"));
+    List<Publication> userPublication = publicationRepository.getPromoPublicationsFromUser(userId);
+    posts.addAll(userPublication.stream()
+            .map(p -> PublicationDTO.builder()
+                    .user_id(p.getUserId())
+                    .product(new ProductDTO(p.getProduct().getId(),p.getProduct().getName(),p.getProduct().getType(),p.getProduct().getBrand(),p.getProduct().getColor(),p.getProduct().getNotes()))
+                    .price(p.getPrice())
+                    .date(p.getPublishDate())
+                    .category(p.getCategory())
+                    .has_promo(p.getHasPromo())
+                    .discount(p.getDiscount())
+                    .build()
+            ).toList());
+    return new PromoPublicationOutDTO(user.getId(),user.getName(),posts);
   }
 }

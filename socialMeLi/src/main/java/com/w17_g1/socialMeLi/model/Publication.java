@@ -23,4 +23,6 @@ public class Publication {
     private Double price;
     private Product product;
     private Integer category;
+    private Boolean hasPromo;
+    private Double discount;
 }

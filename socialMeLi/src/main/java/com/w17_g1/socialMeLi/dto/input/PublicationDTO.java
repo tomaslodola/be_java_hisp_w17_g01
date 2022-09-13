@@ -22,4 +22,6 @@ public class PublicationDTO {
     private ProductDTO product;
     private Integer category;
     private Double price;
+    private Boolean has_promo;
+    private Double discount;
 }

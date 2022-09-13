@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.w17_g1.socialMeLi.exceptions.DuplicateElementException;
 import com.w17_g1.socialMeLi.exceptions.ElementNotFoundException;
+import com.w17_g1.socialMeLi.exceptions.RequiredAttributeException;
 import com.w17_g1.socialMeLi.model.Publication;
 import com.w17_g1.socialMeLi.model.User;
 import com.w17_g1.socialMeLi.repository.user.UserRepositoryImp;
@@ -77,6 +78,10 @@ public class PublicationRepositoryImp implements IPublicationRepository {
               .map(Publication::getId)
               .max(Integer::compare).get() + 1);
     }
+    // Si la publiacion tiene descuento, el atributo discount es obligatorio y si no tiene el atributo discount debe ser nulo o 0
+    if((publication.getHasPromo() && publication.getDiscount() == 0) || (!(publication.getDiscount() == 0) && !publication.getHasPromo())){
+      throw new RequiredAttributeException(String.format("Atributo hasPromo = %s o Discount = %s son requeridos",publication.getHasPromo(),publication.getDiscount()));
+    }
 
     // Si existe el usuario y no se ingresa un producto duplicado
     if (userPublications.stream().anyMatch(p -> Objects.equals(p.getProduct().getId(), publication.getProduct().getId()))) {
@@ -86,6 +91,13 @@ public class PublicationRepositoryImp implements IPublicationRepository {
     optionalPublication = Optional.of(publication);
     publicationList.add(publication);
     return optionalPublication;
+  }
+
+  @Override
+  public List<Publication> getPromoPublicationsFromUser(Integer userId) {
+    return publicationList.stream()
+            .filter(publication -> publication.getUserId().equals(userId))
+            .filter(publication -> publication.getHasPromo()).toList();
   }
 }
 

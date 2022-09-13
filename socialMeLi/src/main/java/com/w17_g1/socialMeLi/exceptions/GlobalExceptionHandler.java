@@ -36,4 +36,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> userCantUnfollowItSelfException(UserCantUnfollowItselfException e){
         return ResponseEntity.status(409).body(new ExceptionDTO(e.getMessage()));
     }
+
+    @ExceptionHandler(RequiredAttributeException.class)
+    public ResponseEntity<?> RequiredAttributeException(RequiredAttributeException e){
+        return ResponseEntity.status(409).body(new ExceptionDTO(e.getMessage()));
+    }
 }
