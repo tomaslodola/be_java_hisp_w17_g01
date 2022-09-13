@@ -34,4 +34,9 @@ public class PublicationController {
     return new ResponseEntity<>(null,publicationService.createPromoPublication(promoProductDTO)?HttpStatus.OK:HttpStatus.NOT_FOUND);
   }
 
+  @GetMapping("/products/promo-post/count")
+  public ResponseEntity<?> getQuantityOfProductsInPromotion(@RequestParam(value = "user_id") Integer userId) {
+    return new ResponseEntity<>(publicationService.findProductsInPromotionByUser(userId),HttpStatus.OK);
+  }
+
 }
