@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.w17_g1.socialMeLi.dto.input.PublicationDTO;
 import com.w17_g1.socialMeLi.exceptions.DuplicateElementException;
 import com.w17_g1.socialMeLi.exceptions.ElementNotFoundException;
 import com.w17_g1.socialMeLi.model.Publication;
@@ -60,15 +61,25 @@ public class PublicationRepositoryImp implements IPublicationRepository {
 
   @Override
   public Optional<Publication> createPublication(Publication publication) {
-    // Controlamos que el usuario exista y buscamos en la lista de publicaciones del mismo el mayor numerador
     Optional<Publication> optionalPublication = Optional.empty();
+    create(publication);
+    optionalPublication = Optional.of(publication);
+    return optionalPublication;
+  }
 
-    User user = userRepository
-            .getUser(publication.getUserId())
-            .orElseThrow(() -> new ElementNotFoundException("No se encontro el usuario con  id: " + publication.getUserId()));
+  @Override
+  public Boolean createPromoPublication(Publication publication){
+    return create(publication);
+  }
+
+  @Override
+  public Boolean create(Publication publication){
+    // Controlamos que el usuario exista y buscamos en la lista de publicaciones del mismo el mayor numerador
+
+    userRepository.validateUser(publication.getUserId());
 
     List<Publication> userPublications = publicationList.stream()
-            .filter(p -> Objects.equals(p.getUserId(), user.getId()))
+            .filter(p -> Objects.equals(p.getUserId(), publication.getUserId()))
             .toList();
 
     if (userPublications.isEmpty()) { publication.setId(0); }
@@ -83,10 +94,9 @@ public class PublicationRepositoryImp implements IPublicationRepository {
       throw new DuplicateElementException(String.format("Publicacion duplicada para el producto con id:%s", publication.getProduct().getId()));
     }
 
-    optionalPublication = Optional.of(publication);
-    publicationList.add(publication);
-    return optionalPublication;
+    return publicationList.add(publication);
   }
+
 }
 
 
