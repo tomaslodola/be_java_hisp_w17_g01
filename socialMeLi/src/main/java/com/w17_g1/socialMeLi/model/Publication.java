@@ -23,4 +23,8 @@ public class Publication {
     private Double price;
     private Product product;
     private Integer category;
+    private Boolean has_promo = false;
+    private Double discount = 0.0;
+
+
 }
