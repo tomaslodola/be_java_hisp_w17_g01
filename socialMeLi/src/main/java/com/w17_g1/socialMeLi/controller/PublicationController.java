@@ -25,7 +25,7 @@ public class PublicationController {
   }
 
   @GetMapping("/products/followed/{userId}/list")
-  public ResponseEntity<?> getPublicationsFromUser(@PathVariable Integer userId, @RequestParam(value = "order",required = false, defaultValue = "date_asc") String order) {
+  public ResponseEntity<?> getPublicationsFromUser(@PathVariable Integer userId, @RequestParam(value = "order") String order) {
     return new ResponseEntity<>(publicationService.getLatestPublicationsFromUser(userId,order), HttpStatus.OK);
   }
 }

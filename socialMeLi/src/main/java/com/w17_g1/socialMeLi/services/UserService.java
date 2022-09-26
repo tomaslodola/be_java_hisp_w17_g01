@@ -138,11 +138,12 @@ public class UserService {
                     responseDTO.getFollowers().stream()
                             .sorted(Comparator.comparing(UserOutputDTO::getName))
                             .toList());
-        else
+        else if (option.equals("name_desc"))
             responseDTO.setFollowers(
                     responseDTO.getFollowers().stream()
                             .sorted(Comparator.comparing(UserOutputDTO::getName).reversed())
                             .toList());
+        else throw new ElementNotFoundException("Parametro no correspondiente");
 
         return responseDTO;
     }
@@ -155,11 +156,12 @@ public class UserService {
                     responseDTO.getFollowed().stream()
                             .sorted(Comparator.comparing(UserOutputDTO::getName))
                             .toList());
-        else
+        else if (option.equals("name_desc"))
             responseDTO.setFollowed(
                     responseDTO.getFollowed().stream()
                             .sorted(Comparator.comparing(UserOutputDTO::getName).reversed())
                             .toList());
+        else throw new ElementNotFoundException("Parametro no correspondiente");
 
         return responseDTO;
     }
