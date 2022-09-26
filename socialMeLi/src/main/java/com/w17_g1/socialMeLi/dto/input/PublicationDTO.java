@@ -27,6 +27,7 @@ public class PublicationDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @NotNull(message = "La fecha no puede estar vacía.")
     private LocalDate date;
+
     @Valid
     private ProductDTO product;
     @NotNull(message = "El campo no puede estar vacío.")
