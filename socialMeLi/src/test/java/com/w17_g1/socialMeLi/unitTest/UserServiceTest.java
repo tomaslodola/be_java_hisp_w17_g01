@@ -2,6 +2,8 @@ package com.w17_g1.socialMeLi.unitTest;
 
 import com.w17_g1.socialMeLi.repository.user.UserRepositoryImp;
 import com.w17_g1.socialMeLi.services.UserService;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -18,4 +20,14 @@ public class UserServiceTest {
     @InjectMocks
     UserService userService;
 
+    @Test
+    public void test01(){
+        Assertions.assertTrue(true);
+    }
+
+
+    @Test
+    public void test02(){
+       // aSSERMAS
+    }
 }

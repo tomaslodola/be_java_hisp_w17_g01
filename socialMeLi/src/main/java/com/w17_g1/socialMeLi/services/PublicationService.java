@@ -98,6 +98,9 @@ public class PublicationService {
   private List<PublicationOutDTO> sortPublicationList(List<PublicationOutDTO> publications,String order){
     if(order.equals("date_asc"))
       return publications.stream().sorted(Comparator.comparing(PublicationOutDTO::getDate).reversed()).collect(Collectors.toList());
-    return publications.stream().sorted(Comparator.comparing(PublicationOutDTO::getDate)).collect(Collectors.toList());
+    else if(order.equals("date_desc"))
+      return publications.stream().sorted(Comparator.comparing(PublicationOutDTO::getDate)).collect(Collectors.toList());
+    else
+      throw new ElementNotFoundException("Parametro no correspondiente");
   }
 }

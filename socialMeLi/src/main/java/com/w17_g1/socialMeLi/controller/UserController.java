@@ -34,14 +34,8 @@ public class UserController {
 
     // Requerimiento US-0003 y US-0008: Obtener un listado de todos los usuarios que siguen un determinado vendedor
     @GetMapping("users/{userId}/followers/list")
-    public ResponseEntity<?> getFollowersList(@PathVariable Integer userId, @RequestParam(value = "order", defaultValue = "name_asc") String order) {
-        if (order.equals("name_asc")) {
-            return new ResponseEntity<>(service.sortFollowersList(userId, order), HttpStatus.OK);
-        }
-        if (order.equals("name_desc")) {
-            return new ResponseEntity<>(service.sortFollowersList(userId, order), HttpStatus.OK);
-        }
-        throw new ElementNotFoundException("Parametro no correspondiente");
+    public ResponseEntity<?> getFollowersList(@PathVariable Integer userId, @RequestParam(value = "order") String order) {
+        return new ResponseEntity<>(service.sortFollowersList(userId, order), HttpStatus.OK);
     }
 
     // Requerimiento US-0004 y US-008: Obtener un listado de todos los vendedores a los cuales sigue un determinado usuario
