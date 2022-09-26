@@ -1,7 +1,10 @@
 package com.w17_g1.socialMeLi.exceptions;
 
 import com.w17_g1.socialMeLi.dto.output.ExceptionDTO;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -35,5 +38,17 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserCantUnfollowItselfException.class)
     public ResponseEntity<?> userCantUnfollowItSelfException(UserCantUnfollowItselfException e){
         return ResponseEntity.status(409).body(new ExceptionDTO(e.getMessage()));
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    protected ResponseEntity<ExceptionDTO> handleValidationExceptions(MethodArgumentNotValidException e) {
+        ExceptionDTO error = new ExceptionDTO(e.getBindingResult().getFieldError().getDefaultMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    protected ResponseEntity<ExceptionDTO> handleValidationExceptions(HttpMessageNotReadableException e) {
+        ExceptionDTO error = new ExceptionDTO(e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }

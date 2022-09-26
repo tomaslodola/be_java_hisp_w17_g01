@@ -29,7 +29,6 @@ public class PublicationRepositoryImp implements IPublicationRepository {
 
   public PublicationRepositoryImp() {
     this.publicationList = loadDataBase();
-    System.out.println(publicationList);
   }
 
   /**
