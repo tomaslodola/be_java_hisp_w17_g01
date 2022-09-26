@@ -1,0 +1,86 @@
+[
+  {
+    "id": 8,
+    "userId": 3,
+    "publishDate": "09-10-2022",
+    "price": 3305.77,
+    "category": 17,
+    "product": {
+      "id": 0,
+      "name": "DoraTheVideogame",
+      "type": "Electronic",
+      "brand": "MechManiacos",
+      "color": "Reg"
+    }
+  },
+  {
+    "id": 13,
+    "userId": 3,
+    "publishDate": "12-10-2022",
+    "price": 9894.36,
+    "category": 11,
+    "product": {
+      "id": 47,
+      "name": "MaxSteel",
+      "type": "Music",
+      "brand": "MechManiacos",
+      "color": "Yellow"
+    }
+  },
+  {
+    "id": 7,
+    "userId": 3,
+    "publishDate": "07-10-2022",
+    "price": 2125.25,
+    "category": 11,
+    "product": {
+      "id": 99,
+      "name": "MaxSteel",
+      "type": "Cars",
+      "brand": "MechManiacos",
+      "color": "Green"
+    }
+  },
+  {
+    "id": 9,
+    "userId": 2,
+    "publishDate": "10-10-2022",
+    "price": 8395.75,
+    "category": 11,
+    "product": {
+      "id": 34,
+      "name": "DoraTheVideogame",
+      "type": "Gamer",
+      "brand": "MechManiacos",
+      "color": "Yellow"
+    }
+  },
+  {
+    "id": 11,
+    "userId": 2,
+    "publishDate": "04-06-2019",
+    "price": 8571.56,
+    "category": 18,
+    "product": {
+      "id": 49,
+      "name": "MaxSteel",
+      "type": "Electronic",
+      "brand": "Garbarino",
+      "color": "Yellow"
+    }
+  },
+  {
+    "id": 8,
+    "userId": 5,
+    "publishDate": "12-12-2021",
+    "price": 9883.25,
+    "category": 17,
+    "product": {
+      "id": 89,
+      "name": "Proto1",
+      "type": "Music",
+      "brand": "Garbarino",
+      "color": "Green"
+    }
+  }
+]
