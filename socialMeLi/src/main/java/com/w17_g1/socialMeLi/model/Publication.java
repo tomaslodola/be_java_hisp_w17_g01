@@ -16,6 +16,7 @@ import java.time.LocalDate;
 public class Publication {
     private Integer id;
     private Integer userId;
+
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate publishDate;
