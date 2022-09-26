@@ -24,5 +24,8 @@ public class ProductDTO {
     private String type;
     private String brand;
     private String color;
+    @NotBlank(message = "El campo no puede estar vacío.")
+    @Size(max = 80, message = "La longitud no puede superar los 80 caracteres.")
+    @Pattern(regexp="([a-zA-ZñÑáéíóúÁÉÍÓÚ]+\\s*\\.*\\s*)+", message = "El campo no puede poseer caracteres especiales.")
     private String notes;
 }

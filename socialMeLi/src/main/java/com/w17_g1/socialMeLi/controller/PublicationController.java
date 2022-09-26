@@ -21,7 +21,7 @@ public class PublicationController {
   @Autowired
   PublicationService publicationService;
   @PostMapping("/products/post")
-  public ResponseEntity<?> createPublication(@Valid  @RequestBody PublicationDTO publicationDTO) {
+  public ResponseEntity<?> createPublication(@RequestBody @Valid PublicationDTO publicationDTO) {
       PublicationIdDTO result = publicationService.createPublication(publicationDTO);
       return ResponseEntity.ok(result);
   }

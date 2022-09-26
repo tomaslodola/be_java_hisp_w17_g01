@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -26,9 +27,11 @@ public class PublicationDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @NotNull(message = "La fecha no puede estar vacía.")
     private LocalDate date;
-
     @Valid
     private ProductDTO product;
+    @NotNull(message = "El campo no puede estar vacío.")
     private Integer category;
+    @NotNull(message = "El campo no puede estar vacío.")
+    @Max(value = 10000000, message = "El precio máximo por producto es de 10.000.000")
     private Double price;
 }
