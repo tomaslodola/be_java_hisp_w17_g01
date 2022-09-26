@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 
 @Data
@@ -19,7 +20,7 @@ public class PublicationDTO {
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate date;
-    private ProductDTO product;
+    @Valid private ProductDTO product;
     private Integer category;
     private Double price;
 }
