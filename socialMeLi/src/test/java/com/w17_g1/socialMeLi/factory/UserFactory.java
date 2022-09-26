@@ -1,11 +1,13 @@
 package com.w17_g1.socialMeLi.factory;
 
+import com.w17_g1.socialMeLi.dto.output.UserFollowersOutputListDTO;
 import com.w17_g1.socialMeLi.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserFactory {
+
     public static User createUser(){
         return User.builder()
                 .id(9)
@@ -22,4 +24,9 @@ public class UserFactory {
                 .followedId(List.of(3))
                 .build();
     }
+
+    public static UserFollowersOutputListDTO createUserFollowersOutputListDTO(){
+        return UserFollowersOutputListDTO.builder().build();
+    }
+
 }

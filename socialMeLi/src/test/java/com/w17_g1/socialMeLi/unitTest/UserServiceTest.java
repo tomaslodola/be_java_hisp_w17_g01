@@ -1,8 +1,11 @@
 package com.w17_g1.socialMeLi.unitTest;
 
+import com.w17_g1.socialMeLi.dto.output.UserFollowedOutputListDTO;
+import com.w17_g1.socialMeLi.dto.output.UserFollowersOutputListDTO;
+import com.w17_g1.socialMeLi.factory.UserFactory;
 import com.w17_g1.socialMeLi.repository.user.UserRepositoryImp;
 import com.w17_g1.socialMeLi.services.UserService;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,8 +24,16 @@ public class UserServiceTest {
     UserService userService;
 
     @Test
+    @DisplayName("Verificar ordenamiento alfabetico followers asc")
     public void test01(){
-        Assertions.assertTrue(true);
+        // Arrange
+        String optionExpected = "name_asc";
+        //UserFollowersOutputListDTO responseDTO = UserFactory.createJsonUser();
+        // Act
+        //Mokito
+
+        // Assert
+
     }
 
 
@@ -30,4 +41,7 @@ public class UserServiceTest {
     public void test02(){
        // aSSERMAS
     }
+
+
+
 }
