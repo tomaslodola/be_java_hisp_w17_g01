@@ -42,7 +42,6 @@ public class UserFactory {
     public static UserOutputDTO userOutputDto1() {
         return UserOutputDTO.builder().id(1).name("Barr Owen").build();
     }
-
     public static UserOutputDTO userOutputDto2() {
         return UserOutputDTO.builder().id(2).name("Maxine Weiss").build();
     }
@@ -61,4 +60,35 @@ public class UserFactory {
     public static User user3() {
         return User.builder().id(3).name("Brady Donovan").build();
     }
+
+    // Metodo que crea un usuario que no siga ningun otro usuario
+    public static User createUserWhoFollowsNoOne(Integer userID){
+        return User.builder()
+                .id(userID)
+                .name("User Without Followed")
+                .followersId(new ArrayList<>())
+                .followedId(new ArrayList<>())
+                .build();
+    }
+
+    // Metodo que crea un usuario que siga a otro usuario que llega como parametro
+    public static User createUserWhoFollowsOneUser(Integer userID, Integer followedID){
+        return User.builder()
+                .id(userID)
+                .name("User With One Followed")
+                .followersId(new ArrayList<>())
+                .followedId(List.of(followedID))
+                .build();
+    }
+
+    // Metodo que crea un usuario que siga otros 2 usuario que llegan como parametro
+    public static User createUserWhoFollowsTwoUsers(Integer userID, Integer firstFollowedID, Integer secondFollowedID){
+        return User.builder()
+                .id(userID)
+                .name("User With Two Followed")
+                .followersId(new ArrayList<>())
+                .followedId(List.of(firstFollowedID,secondFollowedID))
+                .build();
+    }
+
 }

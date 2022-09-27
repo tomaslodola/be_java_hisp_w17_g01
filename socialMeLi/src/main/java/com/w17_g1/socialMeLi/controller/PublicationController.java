@@ -13,19 +13,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 public class PublicationController {
 
   @Autowired
   PublicationService publicationService;
   @PostMapping("/products/post")
-  public ResponseEntity<?> createPublication(@RequestBody PublicationDTO publicationDTO) {
+  public ResponseEntity<?> createPublication(@RequestBody @Valid PublicationDTO publicationDTO) {
       PublicationIdDTO result = publicationService.createPublication(publicationDTO);
       return ResponseEntity.ok(result);
   }
 
   @GetMapping("/products/followed/{userId}/list")
-  public ResponseEntity<?> getPublicationsFromUser(@PathVariable Integer userId, @RequestParam(value = "order") String order) {
+  public ResponseEntity<?> getPublicationsFromUser(@Valid @PathVariable Integer userId, @RequestParam(value = "order") String order) {
     return new ResponseEntity<>(publicationService.getLatestPublicationsFromUser(userId,order), HttpStatus.OK);
   }
 }
