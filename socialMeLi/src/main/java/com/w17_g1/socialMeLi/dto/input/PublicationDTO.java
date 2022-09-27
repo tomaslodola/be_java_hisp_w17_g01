@@ -1,7 +1,6 @@
 package com.w17_g1.socialMeLi.dto.input;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.w17_g1.socialMeLi.model.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +18,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 public class PublicationDTO {
+
     @Min(message = "El id debe ser mayor a cero",value = 1L)
     @NotNull(message = "El  id no puede estar vacío.")
     private Integer user_id;
@@ -30,8 +30,10 @@ public class PublicationDTO {
 
     @Valid
     private ProductDTO product;
+
     @NotNull(message = "El campo no puede estar vacío.")
     private Integer category;
+
     @NotNull(message = "El campo no puede estar vacío.")
     @Max(value = 10000000, message = "El precio máximo por producto es de 10.000.000")
     private Double price;

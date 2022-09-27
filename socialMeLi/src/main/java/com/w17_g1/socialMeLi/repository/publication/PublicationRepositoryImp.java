@@ -5,9 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.w17_g1.socialMeLi.exceptions.DuplicateElementException;
-import com.w17_g1.socialMeLi.exceptions.ElementNotFoundException;
 import com.w17_g1.socialMeLi.model.Publication;
-import com.w17_g1.socialMeLi.model.User;
 import com.w17_g1.socialMeLi.repository.user.UserRepositoryImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -19,11 +17,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.time.LocalDate;
-import java.util.Optional;
 
 @Repository
 public class PublicationRepositoryImp implements IPublicationRepository {
   List<Publication> publicationList;
+
   @Autowired
   UserRepositoryImp userRepository;
 
@@ -36,10 +34,13 @@ public class PublicationRepositoryImp implements IPublicationRepository {
    **/
   public List<Publication> getPublicationsFromUser(Integer userId, LocalDate searchAfterDate) {
     return publicationList.stream()
-            .filter(p -> Objects.equals(p.getUserId(), userId) && p.getPublishDate().isAfter(searchAfterDate))
+            .filter(p -> Objects.equals(p.getUser_id(), userId) && p.getDate().isAfter(searchAfterDate))
             .collect(Collectors.toList());
   }
 
+  /**
+   * Se obtienen las publicaciones almacenadas en el archivo Json
+   */
   private List<Publication> loadDataBase() {
     List<Publication> publicationList = null;
     File file;
@@ -57,17 +58,13 @@ public class PublicationRepositoryImp implements IPublicationRepository {
     return publicationList;
   }
 
+  /**
+   * Implementacion de creacion de una publicacion
+   */
   @Override
-  public Optional<Publication> createPublication(Publication publication) {
-    // Controlamos que el usuario exista y buscamos en la lista de publicaciones del mismo el mayor numerador
-    Optional<Publication> optionalPublication = Optional.empty();
-
-    User user = userRepository
-            .getUser(publication.getUserId())
-            .orElseThrow(() -> new ElementNotFoundException("No se encontro el usuario con  id: " + publication.getUserId()));
-
+  public Integer createPublication(Publication publication) {
     List<Publication> userPublications = publicationList.stream()
-            .filter(p -> Objects.equals(p.getUserId(), user.getId()))
+            .filter(p -> Objects.equals(p.getUser_id(), publication.getUser_id()))
             .toList();
 
     if (userPublications.isEmpty()) { publication.setId(0); }
@@ -82,9 +79,8 @@ public class PublicationRepositoryImp implements IPublicationRepository {
       throw new DuplicateElementException(String.format("Publicacion duplicada para el producto con id:%s", publication.getProduct().getId()));
     }
 
-    optionalPublication = Optional.of(publication);
     publicationList.add(publication);
-    return optionalPublication;
+    return publication.getId();
   }
 }
 

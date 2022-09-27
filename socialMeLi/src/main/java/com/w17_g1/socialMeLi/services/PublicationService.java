@@ -1,106 +1,91 @@
 package com.w17_g1.socialMeLi.services;
 
-
 import com.w17_g1.socialMeLi.dto.input.PublicationDTO;
-import com.w17_g1.socialMeLi.dto.output.PublicationIdDTO;
-import com.w17_g1.socialMeLi.dto.output.PublicationOutDTO;
-import com.w17_g1.socialMeLi.dto.output.PublicationListDTO;
+import com.w17_g1.socialMeLi.dto.output.Publication.ProductDTO;
+import com.w17_g1.socialMeLi.dto.output.Publication.PublicationIdDTO;
+import com.w17_g1.socialMeLi.dto.output.Publication.PublicationOutDTO;
+import com.w17_g1.socialMeLi.dto.output.Publication.PublicationListDTO;
 import com.w17_g1.socialMeLi.exceptions.ElementNotFoundException;
 import com.w17_g1.socialMeLi.model.Product;
 import com.w17_g1.socialMeLi.model.Publication;
-import com.w17_g1.socialMeLi.model.User;
 import com.w17_g1.socialMeLi.repository.publication.IPublicationRepository;
 import com.w17_g1.socialMeLi.repository.user.IUserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class PublicationService {
+public class PublicationService implements IPublicationService{
 
   @Autowired
   IPublicationRepository publicationRepository;
   @Autowired
   IUserRepository userRepository;
 
-  /**Lista de seguidos de un user**/
-  public List<Integer> getUsersFollowedId(Integer userId) { return userRepository.usersFollowedIds(userId); }
+  private final ModelMapper mapper = new ModelMapper();
 
   /**US 0006: listado de las publicaciones realizadas por los vendedores que un usuario sigue en las últimas dos semanas
    * (ordenamiento por fecha, publicaciones más recientes primero) **/
+  @Override
   public PublicationListDTO getLatestPublicationsFromUser(Integer userId,String order) {
 
+    // La lista de publicaciones que màs adelante devolveremos
     List<PublicationOutDTO> posts = new ArrayList<>();
 
-    LocalDate today = LocalDate.now();
-    LocalDate searchAfterDate = today.minusDays(15);
+    // Se define la fecha limite antes de que las publicaciones expiren
+    LocalDate searchAfterDate = LocalDate.now().minusDays(15);
 
-    User user = userRepository.getUser(userId)
-            .orElseThrow(() -> new ElementNotFoundException("No se encontro el ID solicitado"));
+    // Tomamos todos los usuarios seguidos por el usuario recibido
+    List<Integer> follows = userRepository.getUser(userId).getFollowedId();
 
-    List<Integer> follows = getUsersFollowedId(user.getId());
+    // Excepcion: El usuario recibido no sigue a ningun otro usuario
+    if(follows.isEmpty()) throw new ElementNotFoundException("Aún el usuario no sique a nadie");
 
-    if(follows.isEmpty()){
-      throw new ElementNotFoundException("Aún el usuario no sique a nadie");
-    }
-
+    // Por cada usuario seguido, vamos a tomar sus publicaciones no expiradas
     for (Integer followedId : follows) {
       posts.addAll(publicationRepository.getPublicationsFromUser(followedId, searchAfterDate).stream()
-              .map(p -> PublicationOutDTO.builder()
-                      .postId(p.getId())
-                      .userId(p.getUserId())
-                      .product(p.getProduct())
-                      .price(p.getPrice())
-                      .date(p.getPublishDate())
-                      .category(p.getCategory())
-                      .build()
-              ).toList());
+              .map(p -> {
+                PublicationOutDTO newPublication = mapper.map(p,PublicationOutDTO.class);
+                newPublication.setProduct( mapper.map(p.getProduct(),ProductDTO.class) );
+                return newPublication;})
+              .toList());
     }
 
-    if(posts.isEmpty()){
-      throw new ElementNotFoundException("No hay nuevas publicaciones");
-    }
+    // Excepcion: Los usuarios seguidos no tienen ninguna publicacion
+    if(posts.isEmpty()) throw new ElementNotFoundException("No hay nuevas publicaciones");
 
+    // Finalmente ordenamos la lista de publicaciones y la devolvemos
     posts = sortPublicationList(posts,order);
-
     return PublicationListDTO.builder().userId(userId).posts(posts).build();
   }
 
-    // Mapeamos el prodcuto y la publicacion en el DTO que vamos a devolver con el id de la nueva publicacion
-    public PublicationIdDTO createPublication(PublicationDTO publicationDTO) {
+  /** * US 0005: Dar de alta una nueva publicación*/
+  @Override
+  public PublicationIdDTO createPublication(PublicationDTO publicationDTO) {
+      Publication publication = mapper.map(publicationDTO,Publication.class);
+      Product product = mapper.map(publicationDTO.getProduct(),Product.class);
+      publication.setProduct(product);
 
-      Product product = Product.builder()
-                .id(publicationDTO.getProduct().getProduct_id())
-                .name(publicationDTO.getProduct().getProduct_name())
-                .type(publicationDTO.getProduct().getType())
-                .brand(publicationDTO.getProduct().getBrand())
-                .color(publicationDTO.getProduct().getColor())
-                .notes(publicationDTO.getProduct().getNotes())
-                .build();
-
-      Publication publication = Publication.builder()
-              .userId(publicationDTO.getUser_id())
-              .publishDate(publicationDTO.getDate())
-              .price(publicationDTO.getPrice())
-              .product(product)
-              .category(publicationDTO.getCategory())
-              .build();
-
-      Optional<Publication> result = publicationRepository.createPublication(publication);
-        return new PublicationIdDTO(result.get().getId());
-    }
-
-  private List<PublicationOutDTO> sortPublicationList(List<PublicationOutDTO> publications,String order){
-    if(order.equals("date_asc"))
-      return publications.stream().sorted(Comparator.comparing(PublicationOutDTO::getDate).reversed()).collect(Collectors.toList());
-    else if(order.equals("date_desc"))
-      return publications.stream().sorted(Comparator.comparing(PublicationOutDTO::getDate)).collect(Collectors.toList());
-    else
-      throw new ElementNotFoundException("Parametro no correspondiente");
+      Integer publicationID = publicationRepository.createPublication(publication);
+      return new PublicationIdDTO(publicationID);
   }
+
+  /** US 0009: Ordenamiento por fecha ascendente y descendente **/
+  private List<PublicationOutDTO> sortPublicationList(List<PublicationOutDTO> publications,String order){
+    return switch (order) {
+      case "date_asc" -> publications.stream()
+              .sorted(Comparator.comparing(PublicationOutDTO::getDate).reversed())
+              .collect(Collectors.toList());
+      case "date_desc" -> publications.stream()
+              .sorted(Comparator.comparing(PublicationOutDTO::getDate))
+              .collect(Collectors.toList());
+      default -> throw new ElementNotFoundException("Parametro no correspondiente");
+    };
+  }
+
 }

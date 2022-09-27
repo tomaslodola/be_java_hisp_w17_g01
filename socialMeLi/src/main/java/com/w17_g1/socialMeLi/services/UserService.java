@@ -2,7 +2,10 @@ package com.w17_g1.socialMeLi.services;
 
 import com.w17_g1.socialMeLi.dto.output.MessageResponseDTO;
 
-import com.w17_g1.socialMeLi.dto.output.*;
+import com.w17_g1.socialMeLi.dto.output.User.UserCountFollowersDTO;
+import com.w17_g1.socialMeLi.dto.output.User.UserFollowedOutputListDTO;
+import com.w17_g1.socialMeLi.dto.output.User.UserFollowersOutputListDTO;
+import com.w17_g1.socialMeLi.dto.output.User.UserOutputDTO;
 import com.w17_g1.socialMeLi.exceptions.UserAlreadyFollowedException;
 import com.w17_g1.socialMeLi.exceptions.UserCantFollowItselfException;
 import com.w17_g1.socialMeLi.exceptions.UserIsNotFollowedException;
@@ -17,108 +20,103 @@ import java.util.Objects;
 
 
 @Service
-public class UserService {
+public class UserService implements IUserService{
 
     @Autowired
     IUserRepository userRepository;
 
+    /**
+     * Se implementa el seguimiento de un usuario
+    */
+    @Override
     public MessageResponseDTO followUser(Integer userId, Integer userIdToFollow) {
 
         if(Objects.equals(userId, userIdToFollow))
             throw new UserCantFollowItselfException("El usuario no puede seguirse a si mismo");
 
-        // Obtenemos el primer usuario de la base de datos
-        User user = userRepository
-                .getUser(userId)
-                .orElseThrow(() -> new ElementNotFoundException("No se encuentra el usuario con el id " + userId + " que quiere seguir al usuario " + userIdToFollow));
+        User user = userRepository.getUser(userId);
+        User userToFollow = userRepository.getUser(userIdToFollow);
 
-        // Obtenemos el usuario a seguir
-        User userToFollow = userRepository
-                .getUser(userIdToFollow)
-                .orElseThrow(() -> new ElementNotFoundException("No se encuentra el usuario con el id " + userIdToFollow + " que quiere seguir el usuario " + userId));
-
-        // Chequeo de exception
+        // Excepcion: El usuario no puede seguir a alguien que ya sigue
         if(user.getFollowedId().contains(userIdToFollow))
             throw new UserAlreadyFollowedException("El usuario de id " + userId + " ya esta siguiendo al usuario de id " + userIdToFollow);
 
+        // Actualizamos las listas correspondientes de ambos usuarios
         user.getFollowedId().add(userIdToFollow);
         userToFollow.getFollowersId().add(userId);
 
+        // Devolvemos un mensaje de exito
         return new MessageResponseDTO("Se ha seguido al usuario "+ userIdToFollow + " con exito.");
     }
 
+    /**
+     *  Se devuelve la cantidad de usuarios seguidos
+    */
+    @Override
     public UserCountFollowersDTO countNumberOfFollowers(Integer id) {
-        User user = userRepository
-                .getUser(id)
-                .orElseThrow(() -> new ElementNotFoundException("No se encontro el ID solicitado"));
-
+        User user = userRepository.getUser(id);
         return new UserCountFollowersDTO(user.getFollowersId().size());
     }
 
-    // Dado el ID de un usuario, devuelve un DTO con una lista de los seguidores de ese usuario
-    public UserFollowersOutputListDTO getFollowersList(Integer userId) {
-        // Encontramos al usuario según el ID que nos llega (al recibir un ID invalido devolvemos una excepcion)
-        User user = userRepository
-                .getUser(userId)
-                .orElseThrow(() -> new ElementNotFoundException("No se encontro el ID solicitado"));
+    /**
+    *   Dado el ID de un usuario, devuelve un DTO con una lista de los seguidores de ese usuario
+    */
+    @Override
+    public UserFollowersOutputListDTO getFollowersList(Integer userId, String order) {
+        User user = userRepository.getUser(userId);
 
-        // Devolvemos un DTO con la lista de sus seguidores
-        // Observación: Construimos la lista en buildUserOutpustList
         return UserFollowersOutputListDTO.builder()
                 .id(user.getId())
                 .name(user.getName())
-                .followers(buildUserOutputList(user.getFollowersId()))
+                .followers(buildUserOutputList(user.getFollowersId(), order))
                 .build();
     }
 
-    // Dado el ID de un usuario, devuelve un DTO con una lista de usuarios a los que sigue
-    public UserFollowedOutputListDTO getFollowedList(Integer userId) {
+    /**
+     * Dado el ID de un usuario, devuelve un DTO con una lista de usuarios a los que sigue
+     */
+    @Override
+    public UserFollowedOutputListDTO getFollowedList(Integer userId, String order) {
+        User user = userRepository.getUser(userId);
 
-        // Encontramos al usuario según el ID que nos llega (al recibir un ID invalido devolvemos una excepcion)
-        User user = userRepository
-                .getUser(userId)
-                .orElseThrow(() -> new ElementNotFoundException("No se encontro el ID solicitado"));
-
-        // Devolvemos un DTO con la lista de usuarios a los que sigue
-        // Observación: Construimos la lista en buildUserOutpustList
         return UserFollowedOutputListDTO.builder()
                 .id(user.getId())
                 .name(user.getName())
-                .followed(buildUserOutputList(user.getFollowedId()))
+                .followed(buildUserOutputList(user.getFollowedId(),order))
                 .build();
     }
 
-    // Dada una lista de IDs, devuelve la lista de sus respectivos usuarios (OutputDTO)
-    private List<UserOutputDTO> buildUserOutputList(List<Integer> idList){
-        // Por cada ID de la lista, tomamos el usuario al que corresponde ese ID para nuestra lista resultado
-        // De no encontrarse uno de los ID de la lista, devolvemos una excepcion
+    /**
+     *  Dada una lista de IDs, devuelve la lista de sus respectivos usuarios (OutputDTO)
+    */
+    private List<UserOutputDTO> buildUserOutputList(List<Integer> idList, String order){
         List<User> userList = idList.stream()
                 .map(anId -> userRepository
-                        .getUser(anId)
-                        .orElseThrow(() -> new ElementNotFoundException("Error en la Base de Datos")))
+                        .getUser(anId))
                 .toList();
 
-        // Por cada usuario encontrado, creamos un UsuarioOutputDTO con sus datos y devolvemos todos en una lista
-        return userList.stream()
+        List<UserOutputDTO> userOutputList = userList.stream()
                 .map(anUser -> UserOutputDTO.builder()
                         .id(anUser.getId())
                         .name(anUser.getName())
                         .build())
                 .toList();
+
+        return sortList(userOutputList,order);
     }
 
+    /**
+     * Implementacion para dejar de seguir a un usuario.
+     *
+     */
+    @Override
     public MessageResponseDTO unfollowUser(Integer userId, Integer userIdToUnfollow) {
 
         if(Objects.equals(userId, userIdToUnfollow))
-            throw new UserCantFollowItselfException("El usuario no puede seguirse a si mismo");
+            throw new UserCantFollowItselfException("El usuario no puede dejar de seguirse a si mismo");
 
-        User user = userRepository
-                .getUser(userId)
-                .orElseThrow(() -> new ElementNotFoundException("No se encuentra el usuario con el id " + userId + " que quiere dejar de seguir al usuario " + userIdToUnfollow));
-
-        User userToUnfollow = userRepository
-                .getUser(userIdToUnfollow)
-                .orElseThrow(() -> new ElementNotFoundException("No se encuentra el usuario con el id " + userIdToUnfollow + " que quiere dejar de seguir el usuario " + userId));
+        User user = userRepository.getUser(userId);
+        User userToUnfollow = userRepository.getUser(userIdToUnfollow);
 
         if (!user.getFollowedId().contains(userIdToUnfollow))
             throw new UserIsNotFollowedException("El usuario de id " + userId + " no esta siguiendo al usuario de id " + userIdToUnfollow);
@@ -129,41 +127,19 @@ public class UserService {
         return new MessageResponseDTO("Se ha dejado de seguir al usuario " + userIdToUnfollow + " con exito.");
     }
 
-    public UserFollowersOutputListDTO sortFollowersList (Integer id,String option){
-
-        UserFollowersOutputListDTO responseDTO =  getFollowersList(id);
-
-        if (option.equals("name_asc"))
-            responseDTO.setFollowers(
-                    responseDTO.getFollowers().stream()
-                            .sorted(Comparator.comparing(UserOutputDTO::getName))
-                            .toList());
-        else if (option.equals("name_desc"))
-            responseDTO.setFollowers(
-                    responseDTO.getFollowers().stream()
-                            .sorted(Comparator.comparing(UserOutputDTO::getName).reversed())
-                            .toList());
-        else throw new ElementNotFoundException("Parametro no correspondiente");
-
-        return responseDTO;
-    }
-
-    public  UserFollowedOutputListDTO sortFollowedList (Integer id, String option) {
-        UserFollowedOutputListDTO responseDTO = getFollowedList(id);
-
-        if (option.equals("name_asc"))
-            responseDTO.setFollowed(
-                    responseDTO.getFollowed().stream()
-                            .sorted(Comparator.comparing(UserOutputDTO::getName))
-                            .toList());
-        else if (option.equals("name_desc"))
-            responseDTO.setFollowed(
-                    responseDTO.getFollowed().stream()
-                            .sorted(Comparator.comparing(UserOutputDTO::getName).reversed())
-                            .toList());
-        else throw new ElementNotFoundException("Parametro no correspondiente");
-
-        return responseDTO;
+    /**
+     * Se ordena la lista de seguidores por nombre y en cierto orden requerido
+     */
+    private List<UserOutputDTO> sortList(List<UserOutputDTO> userList, String order) {
+        return switch (order) {
+            case "name_asc" -> userList.stream()
+                    .sorted(Comparator.comparing(UserOutputDTO::getName))
+                    .toList();
+            case "name_desc" -> userList.stream()
+                    .sorted(Comparator.comparing(UserOutputDTO::getName).reversed())
+                    .toList();
+            default -> throw new ElementNotFoundException("Parametro no correspondiente");
+        };
     }
 
 }
