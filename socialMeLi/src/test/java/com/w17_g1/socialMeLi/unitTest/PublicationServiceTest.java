@@ -45,11 +45,6 @@ public class PublicationServiceTest {
 
 
 
-    @Test
-    @DisplayName("Verificar que el usuario a seguir exista. (US-0001)")
-    public void  test02(){
-        //Mockito.when()
 
-    }
 
 }
