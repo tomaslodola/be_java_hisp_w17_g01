@@ -92,6 +92,7 @@ public class UserServiceTest {
         );
     }
 
+    @Test
     @DisplayName("Verificar que el usuario a seguir exista. (US-0001) caso donde se cumple: ")
     public void  testUS1A(){
         //Arrange
