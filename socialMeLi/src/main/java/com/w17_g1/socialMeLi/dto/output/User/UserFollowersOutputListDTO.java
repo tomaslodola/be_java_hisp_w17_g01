@@ -1,4 +1,4 @@
-package com.w17_g1.socialMeLi.dto.output;
+package com.w17_g1.socialMeLi.dto.output.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +11,10 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserOutputListDTO {
+public class UserFollowersOutputListDTO {
     private Integer id;
     private String name;
     private List<UserOutputDTO> followers;
+
+
 }

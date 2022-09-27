@@ -1,5 +1,6 @@
 package com.w17_g1.socialMeLi.repository.user;
 
+import com.w17_g1.socialMeLi.exceptions.ElementNotFoundException;
 import org.springframework.stereotype.Repository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,23 +21,13 @@ import java.util.Optional;
 public class UserRepositoryImp implements IUserRepository {
   List<User> users;
 
-  @Override
-  public List<User> getAllUsers() {
-    return users;
-  }
-
   public UserRepositoryImp() {
     this.users = loadDataBase();
   }
 
   /**
-   * Obtener una lista de Ids de a quien sigue un usuario
-   **/
-  public List<Integer> usersFollowedIds(Integer userId) {
-    User u = users.stream().filter(p -> p.getId() == userId).findAny().get();
-    return u.getFollowedId();
-  }
-
+   * Se obtienen los usuarios almacenados en el archivo Json
+   */
   private List<User> loadDataBase() {
     List<User> users = null;
     File file;
@@ -54,14 +45,15 @@ public class UserRepositoryImp implements IUserRepository {
     return users;
   }
 
-  /*
-   Dado el ID de un usuario, lo buscamos en nuestra base de datos.
-   Devolvemos un Optional con el resultado de la busqueda
+  /**
+   * Dado el ID de un usuario, lo buscamos en nuestra base de datos.
+   * Devolvemos un Optional con el resultado de la busqueda
    */
-  public Optional<User> getUser(Integer id) {
+  public User getUser(Integer id) {
     return users.stream()
             .filter(anUser -> Objects.equals(anUser.getId(), id))
-            .findFirst();
+            .findFirst()
+            .orElseThrow(() -> new ElementNotFoundException("No se encontro el usuario con  id: " + id));
   }
 
 }

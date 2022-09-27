@@ -21,39 +21,56 @@ public class UserController {
     @Autowired
     private UserService service;
 
-    // Requerimiento US-0001: Seguir a un usuario determinado.
+    /**
+     * Requerimiento US-0001: Seguir a un usuario determinado.
+     * @param userId
+     * @param userIdToFollow
+     * @return ResponseEntity<MessageResponseDTO>
+     * */
     @PostMapping("/users/{userId}/follow/{userIdToFollow}")
     public ResponseEntity<MessageResponseDTO> followUser(@Valid @PathVariable Integer userId,
                                                          @PathVariable Integer userIdToFollow) {
         return new ResponseEntity<>(service.followUser(userId, userIdToFollow), HttpStatus.valueOf(201));
     }
 
-    // Requerimiento US 0002: Obtener numero de seguidores de un usuario
+    /**
+     * Requerimiento US 0002: Obtener numero de seguidores de un usuario.
+     * @param userId
+     * @return ResponseEntity<?>
+     * */
     @GetMapping("/users/{userId}/followers/count")
-    public ResponseEntity<?> numberOfFollowers(@Valid @PathVariable Integer userId) {
+    public ResponseEntity<?> numberOfFollowers(@PathVariable Integer userId) {
         return new ResponseEntity<>(service.countNumberOfFollowers(userId), HttpStatus.OK);
     }
 
-    // Requerimiento US-0003 y US-0008: Obtener un listado de todos los usuarios que siguen un determinado vendedor
+    /**
+     * Requerimiento US-0003 y US-0008: Obtener un listado de todos los usuarios que siguen un determinado vendedor.
+     * @param userId
+     * @param order
+     * @return ResponseEntity<?>
+     * */
     @GetMapping("users/{userId}/followers/list")
-    public ResponseEntity<?> getFollowersList(@Valid @PathVariable Integer userId, @RequestParam(value = "order") String order) {
-        return new ResponseEntity<>(service.sortFollowersList(userId, order), HttpStatus.OK);
+    public ResponseEntity<?> getFollowersList(@PathVariable Integer userId, @RequestParam(value = "order") String order) {
+        return new ResponseEntity<>(service.getFollowersList(userId, order), HttpStatus.OK);
     }
 
-    // Requerimiento US-0004 y US-008: Obtener un listado de todos los vendedores a los cuales sigue un determinado usuario
+    /**
+     * Requerimiento US-0004 y US-008: Obtener un listado de todos los vendedores a los cuales sigue un determinado usuario.
+     * @param userId
+     * @param order
+     * @return ResponseEntity<?>
+     * */
     @GetMapping("users/{userId}/followed/list")
-    public ResponseEntity<?> getFollowedList(@Valid @PathVariable Integer userId, @RequestParam(value = "order", defaultValue = "name_asc") String order) {
-        if (order.equals("name_asc")) {
-            return new ResponseEntity<>(service.sortFollowedList(userId, order), HttpStatus.OK);
-        }
-        if (order.equals("name_desc")) {
-            return new ResponseEntity<>(service.sortFollowedList(userId, order), HttpStatus.OK);
-        }
-        throw new ElementNotFoundException("Parametro no correspondiente");
+    public ResponseEntity<?> getFollowedList(@PathVariable Integer userId, @RequestParam(value = "order", defaultValue = "name_asc") String order) {
+        return new ResponseEntity<>(service.getFollowedList(userId, order), HttpStatus.OK);
     }
 
-
-    // Requerimiento US-0007: Dejar de seguir a determinado usuario.
+    /**
+     * Requerimiento US-0007: Dejar de seguir a determinado usuario.
+     * @param userId
+     * @param userIdToUnfollow
+     * @return ResponseEntity<?>
+     * */
     @PostMapping("/users/{userId}/unfollow/{userIdToUnfollow}")
     public ResponseEntity<?> UnfollowUser(@Valid @PathVariable Integer userId,
                                           @PathVariable Integer userIdToUnfollow) {

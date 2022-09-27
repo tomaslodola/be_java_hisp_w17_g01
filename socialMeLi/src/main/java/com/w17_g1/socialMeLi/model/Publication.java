@@ -1,6 +1,8 @@
 package com.w17_g1.socialMeLi.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,12 +17,13 @@ import java.time.LocalDate;
 @Builder
 public class Publication {
     private Integer id;
-    private Integer userId;
-
+    @JsonProperty("userId")
+    private Integer user_id;
+    @JsonProperty("publishDate")
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    private LocalDate publishDate;
-    private Double price;
+    private LocalDate date;
     private Product product;
     private Integer category;
+    private Double price;
 }

@@ -10,9 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IUserRepository {
-    public List<Integer> usersFollowedIds(Integer userId);
 
-    public Optional<User> getUser(Integer id);
+    User getUser(Integer id);
 
-    public List<User> getAllUsers();
 }
