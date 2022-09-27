@@ -172,9 +172,9 @@ public class PublicationServiceTest {
         mockGetUser(mainUser);
 
         // Creamos 3 publicaciones separadas por 4 dias cada una (todas dentro del rango de 20 dias)
-        Publication oldPublication = createPublicationForUser(firstFollowedID, limitDate.plusDays(12));
+        Publication oldPublication = createPublicationForUser(firstFollowedID, limitDate.plusDays(4));
         Publication recentPublication = createPublicationForUser(firstFollowedID, limitDate.plusDays(8));
-        Publication newPublication = createPublicationForUser(firstFollowedID, limitDate.plusDays(4));
+        Publication newPublication = createPublicationForUser(firstFollowedID, limitDate.plusDays(12));
 
         // Mockeamos las publicaciones de los usuarios seguidos
         // Uno de los usuario tendra la publicacion mas vieja y nueva
@@ -194,9 +194,9 @@ public class PublicationServiceTest {
         mockGetUser(mainUser);
 
         // Creamos 3 publicaciones separadas por 4 dias cada una (todas dentro del rango de 20 dias)
-        Publication oldPublication = createPublicationForUser(secondFollowedID, limitDate.plusDays(12));
+        Publication oldPublication = createPublicationForUser(secondFollowedID, limitDate.plusDays(4));
         Publication recentPublication = createPublicationForUser(firstFollowedID, limitDate.plusDays(8));
-        Publication newPublication = createPublicationForUser(secondFollowedID, limitDate.plusDays(4));
+        Publication newPublication = createPublicationForUser(secondFollowedID, limitDate.plusDays(12));
 
         // Mockeamos las publicaciones de los usuarios seguidos
         // Uno de los usuario tendra la publicacion mas vieja y nueva
