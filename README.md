@@ -1,31 +1,24 @@
-<h1>SocialMeli</h1>
+<h1>SocialMeli 2</h1>
 
 <h2>Introducción</h2>
 
-<p><strong>SocialMeli</strong> es una plataforma para poder seguir a tus usuarios favoritos, para estar al día con las publicaciones que hagan los mismos y también puedas ser seguido y que tus publicaciones lleguen a tus seguidores y así impulsarlas!. Pensada para que puedas emprender, crecer, apoyar a otros emprendedores y encontrar todo lo que precisas a la distancia de un clic!p>
+<p>En esta entrega, se van a hacer las pruebas necesarias para confirmar el buen funcionamiento de SocialMeli. Vamos a realizar test unitarios, test con mocks y test de integración. Así vamos a conseguir verificar la eficiencia de nuestro código y asegurarnos de que todo funcione correctamente para la satisfacción de cada usuario.<p>
 
+<h2>Dia 1</h2>
+<p>Para este Sprint decidimos dividirnos en grupos de validaciones y grupos de tests.
+En un principio trabajamos juntos para crear el esqueleto del paquete test. Para comenzar a trabajar, probamos la herramienta Code With Me de IntelliJ. Sin embargo, nos trajo muchos inconvenientes a la hora de hacer las pruebas de lo que íbamos implementando, por lo que decidimos finalmente trabajar con github.
+Como en el Sprint 1, decidimos trabajar en un repositorio a parte (https://github.com/tomaslodola/be_java_hisp_w17_g01). Este es público para que nuestro scrum master pueda entrar cuando lo requiera y ver nuestros avances.
+Creamos un excel en el que plasmamos las tareas a realizar, su estado y a quien está asignada para manejarnos con una mejor organización a nivel de grupo.
+<strong>Notas:</strong> 
+<strong>·</strong>La US-0002 no va a encontrarse implementada en el código. Esto es debido a que nosotros implementamos que el campo id_post sea autoenumerado, por lo que no fueron necesarias las validaciones
+<strong>·</strong>Nos pusimos de acuerdo con nuestro scrum master y decidimos que todos los tests iban a implementarse desde la capa service. Por esto, todos los tests llevan mocks.
+<strong>·</strong>Hicimos cambios en algunas implementaciones hechas en el Sprint 1 para poder implementar mejor algunos tests. Estos fueron en la clase UserController para el método getFollowedList y en la clase PublicationService para el método sortPublicationList.
+</p>
 
-<h2>Día 1</h2>
-<p>En este primer día nos organizamos para crear el esqueleto del proyecto juntos. Generamos los paquetes y las clases que sabíamos que íbamos a utilizar si o si de antemano al leer los ejercicios. Luego nos pusimos de acuerdo con respecto a que US iba a encargarse cada uno.</p>
-<h3>Git</h3>
-<p>Con respecto a git, decidimos crear un proyecto nuestro propio. (No me acuerdo porque :') )
-Revisamos las diferentes opciones que teníamos para trabajar en equipo. Consideramos utilizar la herramienta Code With Me de IntelliJ, pero al ver que tenia un limite de colaboradores optamos por trabajar en diferentes ramas.
-Decidimos crear una rama "test" donde iban a realizarse los merge de todas nuestras ramas y probar que todo funcionara bien antes de subirlo a main.</p>
-<br/>
-<p>Realizamos un excel donde agregamos las US, con el método, las excepciones que íbamos a necesitar para cada caso de prueba, los asignados y finalmente con las horas que cada uno estimó que iba a llevarle cada endpoint.</p>
-
-
-<h2>Día 2</h2>
-<p>En el día dos comenzamos con la implementación de los endpoints.
-Tuvimos problemas a la hora de hacer merge o push. Los resolvimos juntos en una llamada y utilizando tanto la consola, como la interfaz.<br/>
-Luego de que todos tuviéramos nuestras implementaciones a la rama test, nos reunimos para hacer una refactorización de todo nuestro proyecto, así sea dejar más comentarios explicativos en caso de necesitarlo, como eliminar algunos métodos o líneas de código que se repetían.</p>
-<h3> Decisiones de diseño</h3>
-<p>A las decisiones de diseño (por fuera del esqueleto básico que armamos todo el equipo en conjunto) las tomamos por separado a la hora de realizar la implementación de cada endpoint. Sin embargo, también nos mantuvimos en contacto por si necesitábamos tomar alguna decisión en conjunto para apoyarnos.
-Finalmente terminamos de tomar algunas decisiones al momento de la refactorización.</p>
-
-<h3>Postman</h3>
-<p>Reunimos todos los casos de prueba en una coleccion de postman. Los separamos por US y le agregamos tanto casos de exito, como casos de errores.</p>
-
+<h2>Dia 2</h2>
+<p>Para esta instancia, terminamos las tareas grupales y nos dedicamos a revisar inconvenientes de cada uno y a refactorizar juntos el código.
+Viendo que contábamos con el tiempo suficiente, aprovechamos para hacer ciertos cambios y mejorar algunas implementaciones del código del Sprint 1. Tomamos en consideración el comentario que nos hicieron en la devolución del Sprint 1 y, también los comentarios que nos hicieron nuestros compañeros para el feedback de a pares.
+Dejamos todo listo para que cada uno pueda comenzar con su parte individual.</p>
 
 <h2>Equipo</h2>
 <p>Facundo Gerez</p>
@@ -34,15 +27,23 @@ Finalmente terminamos de tomar algunas decisiones al momento de la refactorizaci
 <p>Tomas Lodola</p>
 <p>Ariel Agustin Lescano Gonzalez</p>
 <p>Sabrina Micaela Cardoso</p>
+<a href="https://docs.google.com/spreadsheets/d/1huk8_qeNs2PCPXXuhVtufaLxjpz_CiA-6_kaLwJmOq0/edit#gid=52424623">Endpoints y responsables.</a>
+
 
 <h2>Tecnologías utilizadas</h2>
 <p>Java 17</p>
 <p>Spring</p>
 <p>Git</p>
-<p>JSON</p>
+<p>Spring Test</p>
+<p>Mockito</p>
+<p>JUnit</p>
+<p>MockMvc</p>
 
 <h2>Herramientas</h2>
-<p>IntelliJ</p>
-<p>Visual Studio Code</p>
-<p>GitHub</p>
-<p>Postman</p>
+<p><strong>IntelliJ</strong> como IDE.</p>
+<p></strong>Visual Studio Code</strong> para tener una mejor interfaz y hacer merges de forma más sencilla.</p>
+<p></strong>GitHub</strong> como control de versionado del proyecto.</p>
+<p></strong>Postman</strong> para realizar pruebas de lo implementado.</p>
+
+<h2> Documentación técnica </h2>
+<a href="https://docs.google.com/document/d/1Q-mctREte8rZXXhz2V1k5nRrGP5aizCa/edit">Requerimientos tecnicos funcionales.</a>
