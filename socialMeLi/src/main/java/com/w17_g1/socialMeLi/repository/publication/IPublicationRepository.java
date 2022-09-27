@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface IPublicationRepository {
   List<Publication> getPublicationsFromUser(Integer userId, LocalDate searchAfterDate);
-  Optional<Publication> createPublication(Publication publication);
+  Integer createPublication(Publication publication);
 }

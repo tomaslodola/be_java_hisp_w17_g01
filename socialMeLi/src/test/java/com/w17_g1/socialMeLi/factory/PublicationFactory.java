@@ -1,14 +1,12 @@
 package com.w17_g1.socialMeLi.factory;
 
-import com.w17_g1.socialMeLi.dto.output.PublicationOutDTO;
+import com.w17_g1.socialMeLi.dto.output.Publication.ProductDTO;
+import com.w17_g1.socialMeLi.dto.output.Publication.PublicationOutDTO;
 import com.w17_g1.socialMeLi.model.Product;
 import com.w17_g1.socialMeLi.model.Publication;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PublicationFactory {
 
@@ -21,9 +19,9 @@ public class PublicationFactory {
     // Metodo que crea publicaciones con el ID de usuario y la fecha de publicacion que recibe como parametros
     public static Publication createPublicationForUser(Integer userID, LocalDate publishDate){
         return Publication.builder()
-                .userId(userID)
+                .user_id(userID)
                 .id(genereicPostID)
-                .publishDate(publishDate)
+                .date(publishDate)
                 .product(ProductFactory.getProduct(genereicProductID))
                 .category(genereicCategory)
                 .price(genereicPrice)
@@ -33,12 +31,23 @@ public class PublicationFactory {
     // Metodo que toma una publicacion y devuelve un DTO de salida con los mismos datos
     public static PublicationOutDTO outDTOFromPublication(Publication publication) {
         return PublicationOutDTO.builder()
-                .userId(publication.getUserId())
-                .postId(publication.getId())
-                .date(publication.getPublishDate())
-                .product(publication.getProduct())
+                .user_id(publication.getUser_id())
+                .id(publication.getId())
+                .date(publication.getDate())
+                .product(toProductDTO(publication.getProduct()))
                 .category(publication.getCategory())
                 .price(publication.getPrice())
+                .build();
+    }
+
+    private static ProductDTO toProductDTO(Product product){
+        return ProductDTO.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .type(product.getType())
+                .brand(product.getBrand())
+                .color(product.getColor())
+                .notes(product.getNotes())
                 .build();
     }
 

@@ -15,12 +15,12 @@ import java.time.LocalDate;
 @Builder
 public class Publication {
     private Integer id;
-    private Integer userId;
+    private Integer user_id;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    private LocalDate publishDate;
-    private Double price;
+    private LocalDate date;
     private Product product;
     private Integer category;
+    private Double price;
 }

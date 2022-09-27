@@ -1,4 +1,4 @@
-package com.w17_g1.socialMeLi.dto.output;
+package com.w17_g1.socialMeLi.dto.output.Publication;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

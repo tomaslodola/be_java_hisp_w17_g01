@@ -1,8 +1,7 @@
-package com.w17_g1.socialMeLi.dto.output;
+package com.w17_g1.socialMeLi.dto.output.Publication;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.w17_g1.socialMeLi.model.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,10 +15,10 @@ import java.time.LocalDate;
 @Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class PublicationOutDTO {
-  private Integer userId;
-  private Integer postId;
+  private Integer id;
+  private Integer user_id;
   private LocalDate date;
-  private Product product;
+  private ProductDTO product;
   private Integer category;
   private Double price;
 

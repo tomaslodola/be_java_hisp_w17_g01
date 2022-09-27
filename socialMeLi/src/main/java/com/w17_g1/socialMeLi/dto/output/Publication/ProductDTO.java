@@ -1,4 +1,4 @@
-package com.w17_g1.socialMeLi.dto.output;
+package com.w17_g1.socialMeLi.dto.output.Publication;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProductDto {
+public class ProductDTO {
     private Integer id;
     private String name;
     private String type;

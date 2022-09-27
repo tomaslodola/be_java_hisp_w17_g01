@@ -1,7 +1,7 @@
 package com.w17_g1.socialMeLi.unitTest;
 
-import com.w17_g1.socialMeLi.dto.output.PublicationListDTO;
-import com.w17_g1.socialMeLi.dto.output.PublicationOutDTO;
+import com.w17_g1.socialMeLi.dto.output.Publication.PublicationListDTO;
+import com.w17_g1.socialMeLi.dto.output.Publication.PublicationOutDTO;
 import com.w17_g1.socialMeLi.exceptions.ElementNotFoundException;
 import com.w17_g1.socialMeLi.model.Publication;
 import com.w17_g1.socialMeLi.model.User;
@@ -21,7 +21,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static com.w17_g1.socialMeLi.factory.PublicationFactory.*;
 import static com.w17_g1.socialMeLi.factory.UserFactory.*;
@@ -157,11 +156,12 @@ public class PublicationServiceTest {
     }
 
     private void mockGetUser(User mainUser){
-        Mockito.when( userRepositoryImp.getUser(mainUserID) ).thenReturn( Optional.of(mainUser) );
-        Mockito.when( userRepositoryImp.usersFollowedIds(mainUserID) ).thenReturn( mainUser.getFollowedId() );
+        //Se hace un Mock del metodo getUser de userRepository
+        Mockito.when( userRepositoryImp.getUser(mainUserID) ).thenReturn( mainUser );
     }
 
     private void mockPublicationFromUser(Integer userID, List<Publication> postList){
+        //Se hace un Mock del metodo getPublicationsFromUser de publicationRepository
         Mockito.when( publicationRepository.getPublicationsFromUser(userID,limitDate)).thenReturn(postList);
     }
 
