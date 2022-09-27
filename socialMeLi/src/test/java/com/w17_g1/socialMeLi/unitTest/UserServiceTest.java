@@ -2,6 +2,7 @@ package com.w17_g1.socialMeLi.unitTest;
 
 import com.w17_g1.socialMeLi.dto.output.MessageResponseDTO;
 import com.w17_g1.socialMeLi.dto.output.User.UserCountFollowersDTO;
+import com.w17_g1.socialMeLi.dto.output.User.UserFollowedOutputListDTO;
 import com.w17_g1.socialMeLi.dto.output.User.UserFollowersOutputListDTO;
 import com.w17_g1.socialMeLi.exceptions.ElementNotFoundException;
 import com.w17_g1.socialMeLi.factory.UserFactory;
@@ -38,7 +39,7 @@ public class UserServiceTest {
     private static final String invalid_order = "name_";
 
     @Test
-    @DisplayName("Verificar ordenamiento alfabetico followers asc")
+    @DisplayName("Verificar ordenamiento alfabetico followers asc en FollowersList")
     public void testUS4A(){
         // Arrange
         // Obtenemos una lista ordenada de manera ascendente
@@ -54,7 +55,7 @@ public class UserServiceTest {
 
 
     @Test
-    @DisplayName("Verificar ordenamiento alfabetico followers desc")
+    @DisplayName("Verificar ordenamiento alfabetico followers desc en FollowersList")
     public void testUS4B(){
         // Arrange
         UserFollowersOutputListDTO userFollowersExpectedSortedDesc = UserFactory.createUserFollowersOutputListDTOSortDesc();
@@ -67,8 +68,8 @@ public class UserServiceTest {
     }
 
     @Test
-    @DisplayName("Verificar que el tipo de ordenamiento alfabético no exista")
-    public void testUS3(){
+    @DisplayName("Verificar que el tipo de ordenamiento alfabético no exista en FollowersList")
+    public void testUS3A(){
         // Arrange
         MockGetUser();
         MockGetFollowersUsers();
@@ -79,17 +80,60 @@ public class UserServiceTest {
         );
     }
 
+
+    @Test
+    @DisplayName("Verificar que el tipo de ordenamiento alfabético no exista en FollowedList")
+    public void testUS3B(){
+        // Arrange
+        MockGetUser();
+        MockGetFollowedUsers();
+        // Assert
+        Assertions.assertThrows(
+                ElementNotFoundException.class,
+                ()-> userService.getFollowedList(userId,invalid_order)
+        );
+    }
+
+    @Test
+    @DisplayName("Verificar ordenamiento alfabetico followed asc en FollowedList")
+    public void testUS4C(){
+        // Arrange
+        // Obtenemos una lista ordenada de manera ascendente
+        UserFollowedOutputListDTO userFollowedExpectedSortedAsc = UserFactory.createUserFollowedOutputListDTOSortAsc();
+        MockGetUser();
+        MockGetFollowersUsers();
+
+        // Act
+        UserFollowedOutputListDTO userActual = userService.getFollowedList(userId,asc);
+        // Assert
+        Assertions.assertEquals(userFollowedExpectedSortedAsc,userActual);
+    }
+
+
+    @Test
+    @DisplayName("Verificar ordenamiento alfabetico followers desc en FollowedList")
+    public void testUS4D(){
+        // Arrange
+        UserFollowedOutputListDTO userFollowedExpectedSortedDesc = UserFactory.createUserFollowedOutputListDTOSortDesc();
+        MockGetUser();
+        MockGetFollowersUsers();
+        // Act
+        UserFollowedOutputListDTO userActual = userService.getFollowedList(userId,desc);
+        // Assert
+        Assertions.assertEquals(userFollowedExpectedSortedDesc,userActual);
+    }
+
     @Test
     @DisplayName("Verificar que el usuario a seguir exista. (US-0001) caso donde se cumple: ")
     public void  testUS1A(){
         //Arrange
-        Mockito.when(userRepository.getUser(2)).thenReturn(UserFactory.createUser());
+        Mockito.when(userRepository.getUser(4)).thenReturn(UserFactory.createUser());
         Mockito.when(userRepository.getUser(1)).thenReturn(UserFactory.createUser());
 
         //act
-        MessageResponseDTO obtained = userService.followUser(1,2);
+        MessageResponseDTO obtained = userService.followUser(1,4);
         //assert
-        assertEquals(obtained,new MessageResponseDTO("Se ha seguido al usuario "+ 2 + " con exito."));
+        assertEquals(obtained,new MessageResponseDTO("Se ha seguido al usuario "+ 4 + " con exito."));
 
     }
 
@@ -124,6 +168,13 @@ public class UserServiceTest {
     }
 
     private void MockGetFollowersUsers(){
+        // Mockeamos los usuarios que sigue al usuario principal
+        Mockito.when(userRepository.getUser(userFollower1)).thenReturn(UserFactory.user1());
+        Mockito.when(userRepository.getUser(userFollower2)).thenReturn(UserFactory.user2());
+        Mockito.when(userRepository.getUser(userFollower3)).thenReturn(UserFactory.user3());
+    }
+
+    private void MockGetFollowedUsers(){
         // Mockeamos los usuarios que sigue al usuario principal
         Mockito.when(userRepository.getUser(userFollower1)).thenReturn(UserFactory.user1());
         Mockito.when(userRepository.getUser(userFollower2)).thenReturn(UserFactory.user2());

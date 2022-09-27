@@ -1,5 +1,6 @@
 package com.w17_g1.socialMeLi.factory;
 
+import com.w17_g1.socialMeLi.dto.output.User.UserFollowedOutputListDTO;
 import com.w17_g1.socialMeLi.dto.output.User.UserFollowersOutputListDTO;
 import com.w17_g1.socialMeLi.dto.output.User.UserOutputDTO;
 import com.w17_g1.socialMeLi.model.User;
@@ -24,7 +25,7 @@ public class UserFactory {
                 .id(6)
                 .name("Taylor Tillman")
                 .followersId(List.of(1,2,3))
-                .followedId(List.of(3))
+                .followedId(List.of(1,2,3))
                 .build();
     }
 
@@ -46,6 +47,26 @@ public class UserFactory {
                 .id(6)
                 .name("Taylor Tillman")
                 .followers(userOutputDTOList).build();
+    }
+
+    public static UserFollowedOutputListDTO createUserFollowedOutputListDTOSortDesc() {
+        List<UserOutputDTO> userOutputDTOList =
+                List.of(userOutputDto2(),userOutputDto3(),userOutputDto1());
+
+        return UserFollowedOutputListDTO.builder()
+                .id(6)
+                .name("Taylor Tillman")
+                .followed(userOutputDTOList).build();
+    }
+
+    public static UserFollowedOutputListDTO createUserFollowedOutputListDTOSortAsc() {
+        List<UserOutputDTO> userOutputDTOList =
+                List.of(userOutputDto1(),userOutputDto3(),userOutputDto2());
+
+        return UserFollowedOutputListDTO.builder()
+                .id(6)
+                .name("Taylor Tillman")
+                .followed(userOutputDTOList).build();
     }
 
     public static UserOutputDTO userOutputDto1() {
