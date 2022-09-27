@@ -8,6 +8,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserFactory {
+    //Crea un usuario generico
+
+    public static User createUser(){
+        return User.builder()
+                .id(9)
+                .name("Facundo")
+                .followersId(new ArrayList<>())
+                .followedId(new ArrayList<>())
+                .build();
+    }
+    //Crea un JsonUser generico
+    public static User createJsonUser(){
+        return User.builder()
+                .id(6)
+                .name("Taylor Tillman")
+                .followersId(List.of(1,2,3))
+                .followedId(List.of(3))
+                .build();
+    }
+
 
 
     public static User createJsonUser() {
