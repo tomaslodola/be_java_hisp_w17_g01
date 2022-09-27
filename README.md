@@ -7,12 +7,11 @@
 <h2>Dia 1</h2>
 <p>Para este Sprint decidimos dividirnos en grupos de validaciones y grupos de tests.
 En un principio trabajamos juntos para crear el esqueleto del paquete test. Para comenzar a trabajar, probamos la herramienta Code With Me de IntelliJ. Sin embargo, nos trajo muchos inconvenientes a la hora de hacer las pruebas de lo que íbamos implementando, por lo que decidimos finalmente trabajar con github.
-Como en el Sprint 1, decidimos trabajar en un repositorio a parte (https://github.com/tomaslodola/be_java_hisp_w17_g01). Este es público para que nuestro scrum master pueda entrar cuando lo requiera y ver nuestros avances.
+Como en el Sprint 1, decidimos trabajar en un <a href="https://github.com/tomaslodola/be_java_hisp_w17_g01">repositorio</a> a parte. Este es público para que nuestro scrum master pueda entrar cuando lo requiera y ver nuestros avances.
 Creamos un excel en el que plasmamos las tareas a realizar, su estado y a quien está asignada para manejarnos con una mejor organización a nivel de grupo.
-<strong>Notas:</strong> 
+<br><strong>Notas:</strong><br>
 <strong>·</strong>La US-0002 no va a encontrarse implementada en el código. Esto es debido a que nosotros implementamos que el campo id_post sea autoenumerado, por lo que no fueron necesarias las validaciones
-<strong>·</strong>Nos pusimos de acuerdo con nuestro scrum master y decidimos que todos los tests iban a implementarse desde la capa service. Por esto, todos los tests llevan mocks.
-<strong>·</strong>Hicimos cambios en algunas implementaciones hechas en el Sprint 1 para poder implementar mejor algunos tests. Estos fueron en la clase UserController para el método getFollowedList y en la clase PublicationService para el método sortPublicationList.
+<br><strong>·</strong>Hicimos cambios en algunas implementaciones hechas en el Sprint 1 para poder implementar mejor algunos tests. Estos fueron en la clase UserController para el método getFollowedList y en la clase PublicationService para el método sortPublicationList.
 </p>
 
 <h2>Dia 2</h2>
