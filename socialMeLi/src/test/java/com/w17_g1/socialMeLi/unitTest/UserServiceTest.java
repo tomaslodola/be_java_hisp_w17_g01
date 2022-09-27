@@ -52,7 +52,7 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("Verificar que el usuario a seguir exista. (US-0001) caso donde se cumple: ")
-    public void  test02(){
+    public void  test0001(){
         //Arrange
         Mockito.when(userRepository.getUser(2)).thenReturn(Optional.of(UserFactory.createUser()));
         Mockito.when(userRepository.getUser(1)).thenReturn(Optional.of(UserFactory.createUser()));
@@ -65,7 +65,7 @@ public class UserServiceTest {
     }
     @Test
     @DisplayName("Verificar que el usuario a seguir exista. (US-0001) caso donde no se cumple")
-    public void test02F(){
+    public void test0001f(){
         Mockito.when(userRepository.getUser(1)).thenReturn(Optional.of(UserFactory.createUser()));
         //assert
         assertThrows(ElementNotFoundException.class, ()->userService.followUser(1,2))  ;
@@ -74,7 +74,7 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("Verificar que el usuario a dejar de seguir exista. (US-0007) caso donde se cumple: ")
-    public void test3(){
+    public void test0002(){
         //Arrange
         Mockito.when(userRepository.getUser(2)).thenReturn(Optional.of(UserFactory.createUser()));
         Mockito.when(userRepository.getUser(1)).thenReturn(Optional.of(UserFactory.createUser()));
@@ -86,7 +86,7 @@ public class UserServiceTest {
     }
     @Test
     @DisplayName("Verificar que el usuario a dejar de seguir exista. (US-0007)caso donde no se cumple")
-    public void test03F(){
+    public void test0002f(){
         Mockito.when(userRepository.getUser(1)).thenReturn(Optional.of(UserFactory.createUser()));
         //assert
         assertThrows(ElementNotFoundException.class, ()->userService.unfollowUser(1,2))  ;
@@ -95,7 +95,7 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("Verificar que la cantidad de seguidores de un determinado usuario sea correcta. (US-0002)")
-    public void test4(){
+    public void test0007(){
         //Arrange
         Mockito.when(userRepository.getUser(6)).thenReturn(Optional.of(UserFactory.createJsonUser()));
         //Mockito.when(userRepository.usersFollowedIds(1)).thenReturn(followed);
