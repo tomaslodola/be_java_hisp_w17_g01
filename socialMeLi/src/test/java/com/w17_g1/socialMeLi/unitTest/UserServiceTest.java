@@ -137,7 +137,11 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("Verificar que la cantidad de seguidores de un determinado usuario sea correcta. (US-0002)")
+<<<<<<< HEAD
     public void testUS2(){
+=======
+    public void test0007(){
+>>>>>>> 22e6049b65df093b523ad8723e81dbc47790023f
         //Arrange
         Mockito.when(userRepository.getUser(6)).thenReturn(Optional.of(UserFactory.createJsonUser()));
         //Mockito.when(userRepository.usersFollowedIds(1)).thenReturn(followed);
