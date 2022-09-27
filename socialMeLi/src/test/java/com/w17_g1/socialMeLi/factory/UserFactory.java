@@ -1,7 +1,7 @@
 package com.w17_g1.socialMeLi.factory;
 
-import com.w17_g1.socialMeLi.dto.output.UserFollowersOutputListDTO;
-import com.w17_g1.socialMeLi.dto.output.UserOutputDTO;
+import com.w17_g1.socialMeLi.dto.output.User.UserFollowersOutputListDTO;
+import com.w17_g1.socialMeLi.dto.output.User.UserOutputDTO;
 import com.w17_g1.socialMeLi.model.User;
 
 import java.util.ArrayList;

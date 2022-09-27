@@ -1,4 +1,4 @@
-package com.w17_g1.socialMeLi.dto.output;
+package com.w17_g1.socialMeLi.dto.output.Publication;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -15,7 +15,6 @@ import java.util.List;
 @Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class PublicationListDTO {
-  //@JsonProperty("user_id")
   private Integer userId;
   List<PublicationOutDTO> posts;
 }

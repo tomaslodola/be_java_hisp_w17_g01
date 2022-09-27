@@ -1,35 +1,23 @@
 package com.w17_g1.socialMeLi.unitTest;
 
-import com.w17_g1.socialMeLi.controller.UserController;
 import com.w17_g1.socialMeLi.dto.output.MessageResponseDTO;
-import com.w17_g1.socialMeLi.dto.output.UserCountFollowersDTO;
-import com.w17_g1.socialMeLi.dto.output.UserFollowedOutputListDTO;
-import com.w17_g1.socialMeLi.dto.output.UserFollowersOutputListDTO;
+import com.w17_g1.socialMeLi.dto.output.User.UserCountFollowersDTO;
+import com.w17_g1.socialMeLi.dto.output.User.UserFollowersOutputListDTO;
 import com.w17_g1.socialMeLi.exceptions.ElementNotFoundException;
 import com.w17_g1.socialMeLi.factory.UserFactory;
 import com.w17_g1.socialMeLi.repository.user.UserRepositoryImp;
 import com.w17_g1.socialMeLi.services.UserService;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.platform.engine.support.hierarchical.ThrowableCollector;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.cglib.proxy.Factory;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.List;
-import java.util.Optional;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
@@ -53,14 +41,13 @@ public class UserServiceTest {
     @DisplayName("Verificar ordenamiento alfabetico followers asc")
     public void testUS4A(){
         // Arrange
-
         // Obtenemos una lista ordenada de manera ascendente
         UserFollowersOutputListDTO userFollowersExpectedSortedAsc = UserFactory.createUserFollowersOutputListDTOSortAsc();
         MockGetUser();
         MockGetFollowersUsers();
 
         // Act
-        UserFollowersOutputListDTO userActual = userService.sortFollowersList(userId,asc);
+        UserFollowersOutputListDTO userActual = userService.getFollowersList(userId,asc);
         // Assert
         Assertions.assertEquals(userFollowersExpectedSortedAsc,userActual);
     }
@@ -74,7 +61,7 @@ public class UserServiceTest {
         MockGetUser();
         MockGetFollowersUsers();
         // Act
-        UserFollowersOutputListDTO userActual = userService.sortFollowersList(userId,desc);
+        UserFollowersOutputListDTO userActual = userService.getFollowersList(userId,desc);
         // Assert
         Assertions.assertEquals(userFollowersExpectedSortedDesc,userActual);
     }
@@ -88,15 +75,16 @@ public class UserServiceTest {
         // Assert
         Assertions.assertThrows(
                 ElementNotFoundException.class,
-                ()-> userService.sortFollowersList(userId,invalid_order)
+                ()-> userService.getFollowersList(userId,invalid_order)
         );
     }
 
+    @Test
     @DisplayName("Verificar que el usuario a seguir exista. (US-0001) caso donde se cumple: ")
     public void  testUS1A(){
         //Arrange
-        Mockito.when(userRepository.getUser(2)).thenReturn(Optional.of(UserFactory.createUser()));
-        Mockito.when(userRepository.getUser(1)).thenReturn(Optional.of(UserFactory.createUser()));
+        Mockito.when(userRepository.getUser(2)).thenReturn(UserFactory.createUser());
+        Mockito.when(userRepository.getUser(1)).thenReturn(UserFactory.createUser());
 
         //act
         MessageResponseDTO obtained = userService.followUser(1,2);
@@ -106,19 +94,11 @@ public class UserServiceTest {
     }
 
     @Test
-    @DisplayName("Verificar que el usuario a seguir exista. (US-0001) caso donde no se cumple")
-    public void testUS2B(){
-        Mockito.when(userRepository.getUser(1)).thenReturn(Optional.of(UserFactory.createUser()));
-        //assert
-        assertThrows(ElementNotFoundException.class, ()->userService.followUser(1,2))  ;
-    }
-
-    @Test
     @DisplayName("Verificar que el usuario a dejar de seguir exista. (US-0007) caso donde se cumple: ")
     public void testUS7A(){
         //Arrange
-        Mockito.when(userRepository.getUser(2)).thenReturn(Optional.of(UserFactory.createUser()));
-        Mockito.when(userRepository.getUser(1)).thenReturn(Optional.of(UserFactory.createUser()));
+        Mockito.when(userRepository.getUser(2)).thenReturn(UserFactory.createUser());
+        Mockito.when(userRepository.getUser(1)).thenReturn(UserFactory.createUser());
         //act
         MessageResponseDTO followFirst = userService.followUser(1,2);
         MessageResponseDTO obtained = userService.unfollowUser(1,2);
@@ -126,21 +106,12 @@ public class UserServiceTest {
         assertEquals(obtained, new MessageResponseDTO("Se ha dejado de seguir al usuario " + 2 + " con exito."));
     }
 
-    @Test
-    @DisplayName("Verificar que el usuario a dejar de seguir exista. (US-0007)caso donde no se cumple")
-    public void testUS7B(){
-        Mockito.when(userRepository.getUser(1)).thenReturn(Optional.of(UserFactory.createUser()));
-        //assert
-        assertThrows(ElementNotFoundException.class, ()->userService.unfollowUser(1,2))  ;
-    }
-
 
     @Test
     @DisplayName("Verificar que la cantidad de seguidores de un determinado usuario sea correcta. (US-0002)")
     public void testUS2(){
         //Arrange
-        Mockito.when(userRepository.getUser(6)).thenReturn(Optional.of(UserFactory.createJsonUser()));
-        //Mockito.when(userRepository.usersFollowedIds(1)).thenReturn(followed);
+        Mockito.when(userRepository.getUser(6)).thenReturn(UserFactory.createJsonUser());
         //act
         UserCountFollowersDTO obtained = userService.countNumberOfFollowers(6);
         //assert
@@ -149,13 +120,13 @@ public class UserServiceTest {
 
     private void MockGetUser(){
         // Mockeamos el usuario obtenido para realizar el ordenamiento
-        Mockito.when(userRepository.getUser(userId)).thenReturn(Optional.of(UserFactory.createJsonUser()));
+        Mockito.when(userRepository.getUser(userId)).thenReturn(UserFactory.createJsonUser());
     }
 
     private void MockGetFollowersUsers(){
         // Mockeamos los usuarios que sigue al usuario principal
-        Mockito.when(userRepository.getUser(userFollower1)).thenReturn(Optional.of(UserFactory.user1()));
-        Mockito.when(userRepository.getUser(userFollower2)).thenReturn(Optional.of(UserFactory.user2()));
-        Mockito.when(userRepository.getUser(userFollower3)).thenReturn(Optional.of(UserFactory.user3()));
+        Mockito.when(userRepository.getUser(userFollower1)).thenReturn(UserFactory.user1());
+        Mockito.when(userRepository.getUser(userFollower2)).thenReturn(UserFactory.user2());
+        Mockito.when(userRepository.getUser(userFollower3)).thenReturn(UserFactory.user3());
     }
 }
