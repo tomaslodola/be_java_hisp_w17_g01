@@ -28,17 +28,6 @@ public class UserFactory {
                 .build();
     }
 
-
-
-    public static User createJsonUser() {
-        return User.builder()
-                .id(6)
-                .name("Taylor Tillman")
-                .followersId(List.of(1, 2, 3))
-                .followedId(List.of(3))
-                .build();
-    }
-
     public static UserFollowersOutputListDTO createUserFollowersOutputListDTOSortAsc() {
         List<UserOutputDTO> userOutputDTOList =
                 List.of(userOutputDto1(),userOutputDto3(),userOutputDto2());
