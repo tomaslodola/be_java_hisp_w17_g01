@@ -67,6 +67,8 @@ public class PublicationService implements IPublicationService{
   /** * US 0005: Dar de alta una nueva publicación*/
   @Override
   public PublicationIdDTO createPublication(PublicationDTO publicationDTO) {
+      userRepository.isValidUser(publicationDTO.getUser_id());
+
       Publication publication = mapper.map(publicationDTO,Publication.class);
       Product product = mapper.map(publicationDTO.getProduct(),Product.class);
       publication.setProduct(product);

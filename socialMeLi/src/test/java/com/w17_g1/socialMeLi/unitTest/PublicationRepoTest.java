@@ -19,7 +19,6 @@ public class PublicationRepoTest {
     @Autowired
     PublicationRepositoryImp publicationRepository;
 
-
     @Test
     @DisplayName("GetFollowed debe devolver solo las lista no expiradas")
     public void test01() {
