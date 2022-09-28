@@ -28,6 +28,18 @@ public class UserFactory {
                 .followedId(List.of(1,2,3))
                 .build();
     }
+    public static UserFollowersOutputListDTO createUserFollowersOutputListDTO(){
+        UserOutputDTO userOutputDTO = UserOutputDTO.builder().id(0).name("Glenn Brewer").build();
+        List<UserOutputDTO> list = new ArrayList<>();
+        list.add(userOutputDTO);
+        return UserFollowersOutputListDTO.builder().id(2).name("Maxine Weiss").followers(list).build();
+    }
+    public static UserFollowedOutputListDTO createUserFollowedOutputListDTO(){
+        UserOutputDTO userOutputDTO = UserOutputDTO.builder().id(5).name("Whitney Mcdowell").build();
+        List<UserOutputDTO> list = new ArrayList<>();
+        list.add(userOutputDTO);
+        return UserFollowedOutputListDTO.builder().id(3).name("Brady Donovan").followed(list).build();
+    }
 
     public static UserFollowersOutputListDTO createUserFollowersOutputListDTOSortAsc() {
         List<UserOutputDTO> userOutputDTOList =

@@ -5,6 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.w17_g1.socialMeLi.dto.output.User.UserCountFollowersDTO;
+import com.w17_g1.socialMeLi.dto.output.User.UserFollowedOutputListDTO;
+import com.w17_g1.socialMeLi.dto.output.User.UserFollowersOutputListDTO;
+import com.w17_g1.socialMeLi.factory.UserFactory;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -18,10 +21,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -54,6 +54,43 @@ public class UserControllerTest {
                 .andExpectAll(expectedStatus,expectedJson,expectedContentType);
 
     }
+
+    @Test
+    public void getFollowersListTest() throws Exception {
+        ObjectWriter writer= new ObjectMapper().registerModule(new JavaTimeModule()).writer();
+        UserFollowersOutputListDTO userFollowersOutputListDTO = UserFactory.createUserFollowersOutputListDTO();
+        ResponseEntity<UserFollowersOutputListDTO> response = new ResponseEntity<>(userFollowersOutputListDTO, HttpStatus.OK);
+        String stringExpect = writer.writeValueAsString(response.getBody());
+        //Expected
+        ResultMatcher expectedStatus = MockMvcResultMatchers.status().isOk();
+        ResultMatcher expectedJson = MockMvcResultMatchers.content().json(stringExpect);
+        ResultMatcher expectedContentType = MockMvcResultMatchers.content().contentType("APPLICATION/JSON");
+        //Request
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/users/2/followers/list").queryParam("order","name_desc");
+        //
+        mockMvc.perform(requestBuilder)
+                .andDo(MockMvcResultHandlers.print())
+                .andExpectAll(expectedStatus,expectedJson,expectedContentType);
+
+    }
+    @Test
+    public void getFollowedListTest() throws Exception{
+        ObjectWriter writer= new ObjectMapper().registerModule(new JavaTimeModule()).writer();
+        UserFollowedOutputListDTO userFollowedOutputListDTO = UserFactory.createUserFollowedOutputListDTO();
+        ResponseEntity<UserFollowedOutputListDTO> response = new ResponseEntity<>(userFollowedOutputListDTO, HttpStatus.OK);
+        String stringExpect = writer.writeValueAsString(response.getBody());
+        //Expected
+        ResultMatcher expectedStatus = MockMvcResultMatchers.status().isOk();
+        ResultMatcher expectedJson = MockMvcResultMatchers.content().json(stringExpect);
+        ResultMatcher expectedContentType = MockMvcResultMatchers.content().contentType("APPLICATION/JSON");
+        //Request
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/users/3/followed/list").queryParam("order","name_desc");
+        //
+        mockMvc.perform(requestBuilder)
+                .andDo(MockMvcResultHandlers.print())
+                .andExpectAll(expectedStatus,expectedJson,expectedContentType);
+    }
+
 
 
 

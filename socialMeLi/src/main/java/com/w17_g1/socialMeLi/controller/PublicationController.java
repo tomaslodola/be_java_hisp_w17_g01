@@ -29,7 +29,7 @@ public class PublicationController {
   @PostMapping("/products/post")
   public ResponseEntity<?> createPublication(@Valid @RequestBody PublicationDTO publicationDTO) {
       PublicationIdDTO result = publicationService.createPublication(publicationDTO);
-      return ResponseEntity.ok(result);
+      return new ResponseEntity<>(result, HttpStatus.OK);
   }
 
   /**

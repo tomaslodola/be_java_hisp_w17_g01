@@ -25,7 +25,7 @@ public class PublicationDTO {
 
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    @NotNull(message = "La fecha no puede estar vacía.")
+    //@NotNull(message = "La fecha no puede estar vacía.") Esta linea esta comentada ya que tuve problemas con la version
     private LocalDate date;
 
     @Valid

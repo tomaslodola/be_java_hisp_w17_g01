@@ -1,11 +1,13 @@
 package com.w17_g1.socialMeLi.factory;
 
-import com.w17_g1.socialMeLi.dto.output.Publication.ProductDTO;
+import com.w17_g1.socialMeLi.dto.input.ProductDTO;
+import com.w17_g1.socialMeLi.dto.input.PublicationDTO;
 import com.w17_g1.socialMeLi.dto.output.Publication.PublicationOutDTO;
 import com.w17_g1.socialMeLi.model.Product;
 import com.w17_g1.socialMeLi.model.Publication;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class PublicationFactory {
@@ -15,6 +17,13 @@ public class PublicationFactory {
     private static final Integer genereicProductID = 99;
     private static final Integer genereicCategory = 0;
     private static final Double genereicPrice = 100D;
+
+    public static PublicationDTO createPublicationDTO (){
+        ProductDTO productDTO = ProductDTO.builder().product_id(1).product_name("Producto prueba").type("gamer").brand("racer").color("red").notes("test edition").build();
+        return PublicationDTO.builder().user_id(1).price(100.5).category(100)
+                .product(productDTO).build();
+    }
+
 
     // Metodo que crea publicaciones con el ID de usuario y la fecha de publicacion que recibe como parametros
     public static Publication createPublicationForUser(Integer userID, LocalDate publishDate){
@@ -40,8 +49,8 @@ public class PublicationFactory {
                 .build();
     }
 
-    private static ProductDTO toProductDTO(Product product){
-        return ProductDTO.builder()
+    private static com.w17_g1.socialMeLi.dto.output.Publication.ProductDTO toProductDTO(Product product){
+        return com.w17_g1.socialMeLi.dto.output.Publication.ProductDTO.builder()
                 .id(product.getId())
                 .name(product.getName())
                 .type(product.getType())
