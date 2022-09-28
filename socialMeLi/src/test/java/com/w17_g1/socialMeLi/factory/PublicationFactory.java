@@ -16,6 +16,25 @@ public class PublicationFactory {
     private static final Integer genereicCategory = 0;
     private static final Double genereicPrice = 100D;
 
+    public static Publication createJsonPublication(){
+        Product product = Product.builder()
+                .product_id(34)
+                .product_name("DoraTheVideogame")
+                .type("Gamer")
+                .brand("MechManiacos")
+                .color("Yellow")
+                .build();
+
+        return Publication.builder()
+                .id(9)
+                .user_id(2)
+                .date(LocalDate.of(2022,10,10))
+                .price(8395.75)
+                .category(11)
+                .product(product)
+                .build();
+    }
+
     // Metodo que crea publicaciones con el ID de usuario y la fecha de publicacion que recibe como parametros
     public static Publication createPublicationForUser(Integer userID, LocalDate publishDate){
         return Publication.builder()
