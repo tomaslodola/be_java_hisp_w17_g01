@@ -148,20 +148,6 @@ public class PublicationServiceTest {
         assertEquals(expected,obtained);
     }
 
-    @Test
-    @DisplayName("No se listan publicaciones con mas de 2 semanas de antiguedad")
-    public void test08() {
-        // Arrange
-        List<PublicationOutDTO> listOfPostsDTO = arrangeDateTest();
-        PublicationListDTO expected = new PublicationListDTO(mainUserID, listOfPostsDTO);
-
-        // Act
-        PublicationListDTO obtained = publicationService.getLatestPublicationsFromUser(mainUserID,asc);
-
-        // Assert
-        assertEquals(expected,obtained);
-    }
-
     private void mockGetUser(User mainUser){
         //Se hace un Mock del metodo getUser de userRepository
         Mockito.when( userRepositoryImp.getUser(mainUserID) ).thenReturn( mainUser );
@@ -215,25 +201,6 @@ public class PublicationServiceTest {
         // la lista de publicaciones ordenada correctamente
         return (ascSorted)? getAscendentList(oldPublication,recentPublication,newPublication) :
                                 getDescendentList(oldPublication,recentPublication,newPublication);
-    }
-
-    private List<PublicationOutDTO> arrangeDateTest(){
-        // Definimos el usuario principal correspondiente (siguiendo un usuario) y mockeamos el getUser
-        User mainUser = createUserWhoFollowsOneUser(mainUserID, firstFollowedID);
-        mockGetUser(mainUser);
-
-        // Creamos 2 publicaciones:
-        // Una publicacion expirada (mas antigua que la fecha de vencimiento de publicaciones)
-        // Una publicacion nueva (dentro de la fecha de vencimiento de publicaciones)
-        Publication expiredPublication = createPublicationForUser(firstFollowedID, limitDate.minusDays(15));
-        Publication newPublication = createPublicationForUser(firstFollowedID, limitDate.plusDays(4));
-
-        // Mockeamos PublicationsFromUser para que devuelve la publicacion no expirada
-        mockPublicationFromUser(firstFollowedID, List.of(newPublication));
-
-        // Finalmente devovlemos el DTO esperado conformado del ID del usuario
-        // la lista de publicaciones ordenada correctamente
-        return List.of(outDTOFromPublication(newPublication));
     }
 
 }

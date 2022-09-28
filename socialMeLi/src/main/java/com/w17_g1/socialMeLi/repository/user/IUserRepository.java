@@ -12,5 +12,5 @@ import java.util.Optional;
 public interface IUserRepository {
 
     User getUser(Integer id);
-
+    Integer isValidUser(Integer id);
 }

@@ -56,4 +56,10 @@ public class UserRepositoryImp implements IUserRepository {
             .orElseThrow(() -> new ElementNotFoundException("No se encontro el usuario con  id: " + id));
   }
 
+  public Integer isValidUser(Integer id){
+    if(users.stream().noneMatch(anUser -> Objects.equals(anUser.getId(), id)))
+      throw new ElementNotFoundException("No se encontro el usuario con  id: " + id);
+    return id;
+  }
+
 }
