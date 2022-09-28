@@ -1,8 +1,12 @@
 package com.w17_g1.socialMeLi.unitTest;
 
+import com.w17_g1.socialMeLi.dto.input.ProductDTO;
+import com.w17_g1.socialMeLi.dto.input.PublicationDTO;
+import com.w17_g1.socialMeLi.dto.output.Publication.PublicationIdDTO;
 import com.w17_g1.socialMeLi.dto.output.Publication.PublicationListDTO;
 import com.w17_g1.socialMeLi.dto.output.Publication.PublicationOutDTO;
 import com.w17_g1.socialMeLi.exceptions.ElementNotFoundException;
+import com.w17_g1.socialMeLi.model.Product;
 import com.w17_g1.socialMeLi.model.Publication;
 import com.w17_g1.socialMeLi.model.User;
 import com.w17_g1.socialMeLi.repository.publication.PublicationRepositoryImp;
@@ -16,6 +20,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
@@ -63,6 +68,8 @@ public class PublicationServiceTest {
     public void test02(){
         // Arrange
         mockGetUser(createUserWhoFollowsOneUser(mainUserID,firstFollowedID));
+        List<Publication> publicationList = List.of(createPublicationForUser(mainUserID,LocalDate.now()));
+        mockPublicationFromUser(firstFollowedID, publicationList);
 
         // Assert
         Assertions.assertThrows(

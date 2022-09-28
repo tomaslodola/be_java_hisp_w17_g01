@@ -42,8 +42,8 @@ public class PublicationFactory {
 
     private static ProductDTO toProductDTO(Product product){
         return ProductDTO.builder()
-                .id(product.getId())
-                .name(product.getName())
+                .product_id(product.getProduct_id())
+                .product_name(product.getProduct_name())
                 .type(product.getType())
                 .brand(product.getBrand())
                 .color(product.getColor())
