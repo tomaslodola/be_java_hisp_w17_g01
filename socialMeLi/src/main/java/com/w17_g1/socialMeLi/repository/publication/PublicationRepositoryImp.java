@@ -75,8 +75,8 @@ public class PublicationRepositoryImp implements IPublicationRepository {
     }
 
     // Si existe el usuario y no se ingresa un producto duplicado
-    if (userPublications.stream().anyMatch(p -> Objects.equals(p.getProduct().getId(), publication.getProduct().getId()))) {
-      throw new DuplicateElementException(String.format("Publicacion duplicada para el producto con id:%s", publication.getProduct().getId()));
+    if (userPublications.stream().anyMatch(p -> Objects.equals(p.getProduct().getProduct_id(), publication.getProduct().getProduct_id()))) {
+      throw new DuplicateElementException(String.format("Publicacion duplicada para el producto con id:%s", publication.getProduct().getProduct_id()));
     }
 
     publicationList.add(publication);
