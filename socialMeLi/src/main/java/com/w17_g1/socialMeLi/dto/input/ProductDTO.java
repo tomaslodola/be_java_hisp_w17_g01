@@ -1,9 +1,6 @@
 package com.w17_g1.socialMeLi.dto.input;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.*;
 
@@ -11,6 +8,7 @@ import javax.validation.constraints.*;
 @NoArgsConstructor
 @Setter
 @Getter
+@Builder
 public class ProductDTO {
 
     @NotNull(message = "La id no puede estar vacía.")

@@ -1,11 +1,13 @@
 package com.w17_g1.socialMeLi.factory;
 
+import com.w17_g1.socialMeLi.dto.input.PublicationDTO;
 import com.w17_g1.socialMeLi.dto.output.Publication.ProductDTO;
 import com.w17_g1.socialMeLi.dto.output.Publication.PublicationOutDTO;
 import com.w17_g1.socialMeLi.model.Product;
 import com.w17_g1.socialMeLi.model.Publication;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class PublicationFactory {
@@ -26,6 +28,20 @@ public class PublicationFactory {
                 .category(genereicCategory)
                 .price(genereicPrice)
                 .build();
+    }
+
+    public static PublicationDTO createPublicationDto(){
+       return PublicationDTO.builder()
+                .user_id(2)
+                .date(LocalDate.parse("29-04-2021", DateTimeFormatter.ofPattern("dd-MM-yyyy")))
+                .product(com.w17_g1.socialMeLi.dto.input.ProductDTO.builder().product_id(8)
+                        .product_name("Silla Gamer")
+                        .type("Gamer")
+                        .brand("Racer")
+                        .color("Red Black")
+                        .notes("Special Edition").build())
+                .category(100)
+                .price(1500.50).build();
     }
 
     // Metodo que toma una publicacion y devuelve un DTO de salida con los mismos datos
