@@ -45,8 +45,10 @@ public class publicationControllerIntegrationTest {
         PublicationDTO publicationDTO = createPublicationDto();
 
         String responseJsonBody =  writer.writeValueAsString(publicationIdDTOExpected);
+
         String requestJsonBody =  writer.writeValueAsString(publicationDTO);
         // RequestHandles
+
         ResultMatcher jsonExpected = MockMvcResultMatchers.content().string(responseJsonBody);
         ResultMatcher statusExpected = MockMvcResultMatchers.status().isOk();
         ResultMatcher contentTypeExpected =  MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON);

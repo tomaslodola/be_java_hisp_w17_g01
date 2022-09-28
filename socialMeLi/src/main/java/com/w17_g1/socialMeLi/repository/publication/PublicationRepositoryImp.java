@@ -63,6 +63,7 @@ public class PublicationRepositoryImp implements IPublicationRepository {
    */
   @Override
   public Integer createPublication(Publication publication) {
+    userRepository.getUser(publication.getUser_id());
     List<Publication> userPublications = publicationList.stream()
             .filter(p -> Objects.equals(p.getUser_id(), publication.getUser_id()))
             .toList();
