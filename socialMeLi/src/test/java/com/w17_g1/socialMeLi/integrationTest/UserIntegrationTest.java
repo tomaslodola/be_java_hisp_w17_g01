@@ -22,7 +22,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
@@ -139,7 +138,7 @@ public class UserIntegrationTest {
 
         // Request
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-                .get("/users/{userId}/followers/count",userId );
+                .get("/users/{userId}/followers/count",userId);
 
         // Mock mvc
         mockMvc.perform(requestBuilder)
@@ -202,7 +201,7 @@ public class UserIntegrationTest {
     }
 
     @Test
-    @DisplayName("Test Integrador de getFollowersList result: orden invalido")
+    @DisplayName("Test Integrador de getFollowersList result: error orden invalido")
     public void getFollowersListTest2() throws Exception{
         // Expected
         int userId = 0;
